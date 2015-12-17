@@ -20,10 +20,10 @@ public class RegistrationRestController
     @Autowired
     private OAuth2RestTemplate restTemplate;
 
-    @Value("${registration.baseurl.uaa}")
+    @Value("${oauth.server.uaa}")
     private String uaaBaseUrl;
 
-    @Value("${registration.baseurl.phr}")
+    @Value("${oauth.resources.phr}")
     private String phrBaseUrl;
 
 

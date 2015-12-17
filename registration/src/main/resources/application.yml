@@ -10,9 +10,8 @@ security.oauth2:
     id: registration
     jwt.keyUri: http://localhost:8080/uaa/token_key
     userInfoUri: http://localhost:8080/uaa/userinfo
-registration:
-  baseurl:
+oauth:
+  server:
     uaa: http://localhost:8080/uaa
+  resources:
     phr: http://localhost:8080/phr
-
-
