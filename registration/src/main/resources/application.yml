@@ -1,0 +1,18 @@
+server.port: 8087
+security:
+  basic:
+    enabled: false
+spring.oauth2:
+  client:
+    clientId: registration
+security.oauth2:
+  resource:
+    id: registration
+    jwt.keyUri: http://localhost:8080/uaa/token_key
+    userInfoUri: http://localhost:8080/uaa/userinfo
+registration:
+  baseurl:
+    uaa: http://localhost:8080/uaa
+    phr: http://localhost:8080/phr
+
+
