@@ -2,24 +2,33 @@ package gov.samhsa.registration.service.dto;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 public class SignupDto
 {
     @NotEmpty
+    @Size(min = 2, max = 30)
     private String lastName;
 
     @NotEmpty
+    @Size(min = 2, max = 30)
     private String firstName;
 
     @NotEmpty
+    @Size(min = 2, max = 30)
     private String username;
 
     @NotEmpty
+    @Size(min = 2, max = 30)
     private String password;
 
     @NotEmpty
+    @Pattern(regexp = "^[\\w-]+(\\.[\\w-]+)*@([a-z0-9-]+(\\.[a-z0-9-]+)*?\\.[a-z]{2,6}|(\\d{1,3}\\.){3}\\d{1,3})(:\\d{4})?$")
     private String email;
 
     @NotEmpty
+    @Size(min = 2, max = 30)
     private String dob;
 
     @NotEmpty
