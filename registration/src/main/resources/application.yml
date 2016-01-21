@@ -1,4 +1,14 @@
 server.port: 8087
+logging:
+  file: C:/java/PP_LOGS/registration/registration.log
+  level:
+    org:
+      springframework:
+        web: ERROR
+      hibernate: ERROR
+    gov:
+      samsha:
+        registration: ERROR
 security:
   basic:
     enabled: false

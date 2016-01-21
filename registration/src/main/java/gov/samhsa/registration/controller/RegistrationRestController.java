@@ -2,6 +2,8 @@ package gov.samhsa.registration.controller;
 
 import gov.samhsa.registration.service.dto.SignupDto;
 import org.cloudfoundry.identity.uaa.scim.ScimUser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,9 @@ public class RegistrationRestController
     @Value("${oauth.resources.phr}")
     private String phrBaseUrl;
 
+    /** The logger. */
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
    @RequestMapping(value = "/signup", method = RequestMethod.POST)
    @PreAuthorize("#oauth2.hasScope('phr.hie.writeDocument','scim.write','registration.write','zones.uaa.admin')")
@@ -46,8 +51,10 @@ public class RegistrationRestController
        restTemplate.postForEntity(phrBaseUrl + "/patients", signupDto, null);
 
        }catch(HttpClientErrorException e){
+          logger.error("    Stack Trace: "+e);
           throw new HttpClientErrorException(e.getStatusCode(),e.getMessage());
        }catch(Exception e){
+           logger.error("    Stack Trace: "+e);
            throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR,"Service not available.");
        }
 
