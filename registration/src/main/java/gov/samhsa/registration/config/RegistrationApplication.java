@@ -4,7 +4,6 @@ package gov.samhsa.registration.config;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableMBeanExport;
@@ -19,7 +18,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 @ComponentScan(basePackages = {"gov.samhsa.registration"})
 @EnableResourceServer
 @EnableMBeanExport(defaultDomain = "gov.samhsa.registration")
-public class RegistrationApplication extends SpringBootServletInitializer
+public class RegistrationApplication
 {
     private static final String RESOURCE_ID ="registration" ;
 
