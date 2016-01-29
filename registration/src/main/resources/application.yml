@@ -1,5 +1,8 @@
+server:
+  context-path: /registration
+  port: 8085
 logging:
-  file: C:/java/PP_LOGS/registration/registration.log
+  file: C:/java/MHC_LOGS/registration/registration.log
   level:
     org:
       springframework:
