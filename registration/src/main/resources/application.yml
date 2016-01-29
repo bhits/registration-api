@@ -28,4 +28,4 @@ oauth:
   server:
     uaa: http://localhost:8080/uaa
   resources:
-    phr: http://localhost:8080/phr
+    phr: http://localhost:8082/phr
