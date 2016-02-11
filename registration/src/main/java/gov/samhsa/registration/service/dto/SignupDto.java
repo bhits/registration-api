@@ -1,9 +1,12 @@
 package gov.samhsa.registration.service.dto;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 public class SignupDto
 {
@@ -27,12 +30,12 @@ public class SignupDto
     @Pattern(regexp = "^[\\w-]+(\\.[\\w-]+)*@([a-z0-9-]+(\\.[a-z0-9-]+)*?\\.[a-z]{2,6}|(\\d{1,3}\\.){3}\\d{1,3})(:\\d{4})?$")
     private String email;
 
-    @NotEmpty
-    @Size(min = 2, max = 30)
-    private String dob;
+    @Past
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
+    private Date birthDate;
 
     @NotEmpty
-    private String sex;
+    private String genderCode;
 
     private String ssn;
     private String telephone;
@@ -81,24 +84,24 @@ public class SignupDto
         this.telephone = telephone;
     }
 
-    public String getDob()
+    public Date getBirthDate()
     {
-        return dob;
+        return birthDate;
     }
 
-    public void setDob(String dob)
+    public void setBirthDate(Date birthDate)
     {
-        this.dob = dob;
+        this.birthDate = birthDate;
     }
 
-    public String getSex()
+    public String getGenderCode()
     {
-        return sex;
+        return genderCode;
     }
 
-    public void setSex(String sex)
+    public void setGenderCode(String genderCode)
     {
-        this.sex = sex;
+        this.genderCode = genderCode;
     }
 
     public String getLastName()
