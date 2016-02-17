@@ -62,20 +62,22 @@ public class RegistrationRestController
 
     public ScimUser mapSignupdtoToScimuser(SignupDto signupDto){
 
-        ScimUser scimUser = new ScimUser(null,signupDto.getUsername(),signupDto.getFirstName(),signupDto.getLastName());
+    //use email as username
+    signupDto.setUsername(signupDto.getEmail());
+    ScimUser scimUser = new ScimUser(null,signupDto.getUsername(),signupDto.getFirstName(),signupDto.getLastName());
 
-        ScimUser.Email email = new ScimUser.Email();
-        email.setValue(signupDto.getEmail());
-        scimUser.setEmails(Collections.singletonList(email));
-        scimUser.setPassword(signupDto.getPassword());
+    ScimUser.Email email = new ScimUser.Email();
+    email.setValue(signupDto.getEmail());
+    scimUser.setEmails(Collections.singletonList(email));
+    scimUser.setPassword(signupDto.getPassword());
 
-        ScimUser.PhoneNumber phone = new ScimUser.PhoneNumber();
-        phone.setValue(signupDto.getTelephone());
-        scimUser.setPhoneNumbers(Collections.singletonList(phone));
+    ScimUser.PhoneNumber phone = new ScimUser.PhoneNumber();
+    phone.setValue(signupDto.getTelephone());
+    scimUser.setPhoneNumbers(Collections.singletonList(phone));
 
-        //TODO : setup group from user not working
-        //scimUser.setGroups(Arrays.asList(new ScimUser.Group(null, "phr.hie.writeDocument")));
+    //TODO : setup group from user not working
+    //scimUser.setGroups(Arrays.asList(new ScimUser.Group(null, "phr.hie.writeDocument")));
 
-        return scimUser;
+    return scimUser;
     }
 }
