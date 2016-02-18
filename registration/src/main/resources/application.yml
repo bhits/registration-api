@@ -1,6 +1,9 @@
 server:
   context-path: /registration
-  port: 8085
+  port: 8448
+  ssl:
+    key-store: c:/ssl_keystore.keystore
+    key-store-password: changeit
 logging:
   file: C:/java/MHC_LOGS/registration/registration.log
   level:
@@ -22,10 +25,10 @@ spring.oauth2:
 security.oauth2:
   resource:
     id: registration
-    jwt.keyUri: http://localhost:8080/uaa/token_key
-    userInfoUri: http://localhost:8080/uaa/userinfo
+    jwt.keyUri: https://localhost:8443/uaa/token_key
+    userInfoUri: https://localhost:8443/uaa/userinfo
 oauth:
   server:
-    uaa: http://localhost:8080/uaa
+    uaa: https://localhost:8443/uaa
   resources:
-    phr: http://localhost:8082/phr
+    phr: https://localhost:8445/phr
