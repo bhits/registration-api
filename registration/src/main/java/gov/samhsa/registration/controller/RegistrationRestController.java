@@ -16,6 +16,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import java.util.Collections;
 
 @RestController
+@RequestMapping("/users")
 public class RegistrationRestController
 {
 
@@ -33,7 +34,7 @@ public class RegistrationRestController
 
 
    @RequestMapping(value = "/signup", method = RequestMethod.POST)
-   @PreAuthorize("#oauth2.hasScope('phr.hie.writeDocument','scim.write','registration.write','zones.uaa.admin')")
+   //@PreAuthorize("#oauth2.hasScope('phr.hie.writeDocument','scim.write','registration.write','zones.uaa.admin')")
        public void signup(@RequestBody SignupDto signupDto){
 
        try {
