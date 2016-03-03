@@ -40,7 +40,7 @@ public class RegistrationApplication
                     http.requiresChannel().anyRequest().requiresSecure();
                 }
                 http.authorizeRequests()
-                        .antMatchers(HttpMethod.GET, "/**").access("#oauth2.hasScope('registration.read')")
+                        //.antMatchers(HttpMethod.GET, "/**").access("#oauth2.hasScope('registration.read')")
                         .antMatchers(HttpMethod.POST, "/**").access("#oauth2.hasScope('registration.write')")
                         .antMatchers(HttpMethod.PUT, "/**").access("#oauth2.hasScope('registration.write')");
             }
