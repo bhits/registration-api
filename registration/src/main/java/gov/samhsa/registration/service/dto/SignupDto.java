@@ -32,8 +32,6 @@ public class SignupDto
     @Pattern(regexp = "^[\\w-]+(\\.[\\w-]+)*@([a-z0-9-]+(\\.[a-z0-9-]+)*?\\.[a-z]{2,6}|(\\d{1,3}\\.){3}\\d{1,3})(:\\d{4})?$")
     private String email;
 
-//    @Past
-//    @DateTimeFormat(pattern = "MM/dd/yyyy")
     @DateTimeFormat(pattern = "MM/dd/yyyy")
     @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     @JsonSerialize(using = CustomJsonDateSerializer.class)
