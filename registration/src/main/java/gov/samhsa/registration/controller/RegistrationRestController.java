@@ -45,9 +45,8 @@ public class RegistrationRestController
 
 
    @RequestMapping(value = "/signup", method = RequestMethod.POST)
-   @PreAuthorize("#oauth2.hasScope('phr.hie_write','scim.write','registration.write','zones.uaa.admin')")
-       public void signup(@RequestBody SignupDto signupDto){
-
+   @PreAuthorize("#oauth2.hasScope('phr.hie_write','scim.write','registration.write','uaa.admin')")
+   public void signup(@RequestBody SignupDto signupDto){
        try {
        //TODO : check patient in PHR
        // ResponseEntity<Boolean> checkDuplicate = restTemplate.postForEntity(phrBaseUrl + "checkDuplicate", signupDto, Boolean.class);
@@ -56,8 +55,6 @@ public class RegistrationRestController
 
        //create user aacount in UAA
        ScimUser scimUser = mapSignupdtoToScimuser(signupDto);
-
-       //ScimUser response = restTemplate.postForObject(uaaBaseUrl +"/Users", scimUser, ScimUser.class);
        ScimUser user = restTemplate.postForObject(uaaBaseUrl +"/Users",scimUser,ScimUser.class );
        AssignScopes(user.getId());
        //create patient in PHR
@@ -72,31 +69,9 @@ public class RegistrationRestController
        }
     }
 
-    @RequestMapping(value = "/groups", method = RequestMethod.POST)
-    @PreAuthorize("#oauth2.hasScope('phr.hie_write','scim.write','registration.write','zones.uaa.admin')")
-    public void addGroups(){
-
-        try {
-            //create group aacount in UAA
-            ScimGroup scimGroup = new ScimGroup();
-            scimGroup.setDisplayName("new group");
-            //scimGroup.setDescription("test");
-
-            ScimGroup response = restTemplate.postForObject(uaaBaseUrl +"/Groups", scimGroup, ScimGroup.class);
-
-        }catch(HttpClientErrorException e){
-            logger.error("    Stack Trace: "+e);
-            throw new HttpClientErrorException(e.getStatusCode(),e.getMessage());
-        }catch(Exception e){
-            logger.error("    Stack Trace: "+e);
-            throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR,"Service not available.");
-        }
-
-    }
-
     @RequestMapping(value = "/AssignPatientScopes/member/{memberId}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    //@PreAuthorize("#oauth2.hasScope('scim.write','registration.write','zones.uaa.admin')")
+    @PreAuthorize("#oauth2.hasScope('scim.write','registration.write','uaa.admin')")
     public void addUserToGroups(@PathVariable("memberId") String memberId){
         try {
             AssignScopes(memberId);
@@ -116,17 +91,17 @@ public class RegistrationRestController
         for (ScimGroup group : scimGroups)
         {
             //Add the member to the groups.
-            ScimGroupMember response = restTemplate.postForObject(uaaBaseUrl +"/Groups/{groupId}/members",scimGroupMember,ScimGroupMember.class,group.getId() );
+            restTemplate.postForObject(uaaBaseUrl +"/Groups/{groupId}/members",scimGroupMember,ScimGroupMember.class,group.getId() );
         }
     }
 
     @RequestMapping(value = "/PatientScopes", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("#oauth2.hasScope('uaa.admin')")
     public SearchResults<ScimGroup> getMHCGroups(){
         try {
 
-            SearchResults<ScimGroup> scimGroups = getPatientScopes();
-            return scimGroups;
+            return getPatientScopes();
 
         }catch(HttpClientErrorException e){
             logger.error("    Stack Trace: "+e);
@@ -141,16 +116,13 @@ public class RegistrationRestController
     private SearchResults<ScimGroup> getPatientScopes()
     {
         String queryParam ="displayName sw \"pcm\"  or displayName sw \"phr\"";
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("filter", queryParam);
         ResponseEntity<SearchResults<ScimGroup>> scimGroupResponse =
                 restTemplate.exchange(uaaBaseUrl +"/Groups?filter={filter}",
                 HttpMethod.GET, null, new ParameterizedTypeReference<SearchResults<ScimGroup>>() {},
                 params);
-
-
-        SearchResults<ScimGroup> scimGroups = scimGroupResponse.getBody();
-        return scimGroups;
+        return scimGroupResponse.getBody();
     }
 
     public ScimUser mapSignupdtoToScimuser(SignupDto signupDto){
