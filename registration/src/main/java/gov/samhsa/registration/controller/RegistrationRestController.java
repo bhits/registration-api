@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/users")
 public class RegistrationRestController
 {
 

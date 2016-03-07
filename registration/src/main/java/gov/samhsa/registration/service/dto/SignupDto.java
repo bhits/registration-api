@@ -1,5 +1,9 @@
 package gov.samhsa.registration.service.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import gov.samhsa.registration.service.util.CustomJsonDateDeserializer;
+import gov.samhsa.registration.service.util.CustomJsonDateSerializer;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,8 +22,6 @@ public class SignupDto
     @Size(min = 2, max = 30)
     private String firstName;
 
-    @NotEmpty
-    @Size(min = 2, max = 30)
     private String username;
 
     @NotEmpty
@@ -30,8 +32,9 @@ public class SignupDto
     @Pattern(regexp = "^[\\w-]+(\\.[\\w-]+)*@([a-z0-9-]+(\\.[a-z0-9-]+)*?\\.[a-z]{2,6}|(\\d{1,3}\\.){3}\\d{1,3})(:\\d{4})?$")
     private String email;
 
-    @Past
     @DateTimeFormat(pattern = "MM/dd/yyyy")
+    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
+    @JsonSerialize(using = CustomJsonDateSerializer.class)
     private Date birthDate;
 
     @NotEmpty
