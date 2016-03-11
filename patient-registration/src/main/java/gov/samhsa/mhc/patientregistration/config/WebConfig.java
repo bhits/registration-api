@@ -1,4 +1,4 @@
-package gov.samhsa.registration.config;
+package gov.samhsa.mhc.patientregistration.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

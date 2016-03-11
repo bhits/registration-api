@@ -1,19 +1,16 @@
-package gov.samhsa.registration.service.dto;
+package gov.samhsa.mhc.patientregistration.service.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import gov.samhsa.registration.service.util.CustomJsonDateDeserializer;
-import gov.samhsa.registration.service.util.CustomJsonDateSerializer;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.LocalDate;
 
-public class SignupDto
+public class PatientDto
 {
+    private Long id;
+
     @NotEmpty
     @Size(min = 2, max = 30)
     private String lastName;
@@ -22,40 +19,28 @@ public class SignupDto
     @Size(min = 2, max = 30)
     private String firstName;
 
-    private String username;
-
-    @NotEmpty
-    @Size(min = 2, max = 30)
-    private String password;
-
     @NotEmpty
     @Pattern(regexp = "^[\\w-]+(\\.[\\w-]+)*@([a-z0-9-]+(\\.[a-z0-9-]+)*?\\.[a-z]{2,6}|(\\d{1,3}\\.){3}\\d{1,3})(:\\d{4})?$")
     private String email;
 
-    @DateTimeFormat(pattern = "MM/dd/yyyy")
-    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
-    @JsonSerialize(using = CustomJsonDateSerializer.class)
-    private Date birthDate;
+    @Past
+    private LocalDate birthDate;
 
     @NotEmpty
     private String genderCode;
 
     private String ssn;
+
     private String telephone;
     private String address;
     private String city;
     private String state;
     private String zip;
 
-    public String getPassword()
-    {
-        return password;
-    }
+    private String resourceIdentifier;
+    private String medicalRecordNumber;
+    private String enterpriseIdentifier;
 
-    public void setPassword(String password)
-    {
-        this.password = password;
-    }
 
     public String getEmail()
     {
@@ -87,13 +72,11 @@ public class SignupDto
         this.telephone = telephone;
     }
 
-    public Date getBirthDate()
-    {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate)
-    {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -169,14 +152,35 @@ public class SignupDto
         this.firstName = firstName;
     }
 
-    public String getUsername()
-    {
-        return username;
+    public String getResourceIdentifier() {
+        return resourceIdentifier;
     }
 
-    public void setUsername(String username)
-    {
-        this.username = username;
+    public void setResourceIdentifier(String resourceIdentifier) {
+        this.resourceIdentifier = resourceIdentifier;
     }
 
+    public String getEnterpriseIdentifier() {
+        return enterpriseIdentifier;
+    }
+
+    public void setEnterpriseIdentifier(String enterpriseIdentifier) {
+        this.enterpriseIdentifier = enterpriseIdentifier;
+    }
+
+    public String getMedicalRecordNumber() {
+        return medicalRecordNumber;
+    }
+
+    public void setMedicalRecordNumber(String medicalRecordNumber) {
+        this.medicalRecordNumber = medicalRecordNumber;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

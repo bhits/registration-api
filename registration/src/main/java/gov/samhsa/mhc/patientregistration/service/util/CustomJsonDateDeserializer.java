@@ -23,30 +23,35 @@
  *   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package gov.samhsa.registration.service.util;
+package gov.samhsa.mhc.patientregistration.service.util;
 
-import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * The Class CustomJsonDateDeserializer.
  */
-public class CustomJsonDateSerializer extends JsonSerializer<Date>
+public class CustomJsonDateDeserializer extends JsonDeserializer<Date>
 {
-    
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-    
     @Override
-    public void serialize(Date date, JsonGenerator gen, SerializerProvider provider)
-    throws IOException, JsonProcessingException {
-    String formattedDate = dateFormat.format(date);
-    gen.writeString(formattedDate);
+    public Date deserialize(JsonParser jsonparser,
+            DeserializationContext deserializationcontext) throws IOException, JsonProcessingException {
+
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        String date = jsonparser.getText();
+        try {
+            return format.parse(date);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 }

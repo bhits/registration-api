@@ -13,7 +13,7 @@ logging:
       hibernate: ERROR
     gov:
       samsha:
-        patientregistration: ERROR
+        registration: ERROR
 security:
   basic:
     enabled: false
@@ -42,16 +42,3 @@ oauth:
     uaa: https://localhost:8443/uaa
   resources:
     phr: https://localhost:8445/phr
-identifier:
-  mrnPrefix: MHC-DEV
-  mrnDomainId: 2.16.840.1.113883.3.704.100.200.1.1.3.1
-  mrnDomainType: ISO
-  mrnDomainLabel: My Health Compass
-  mrnIdLength: 6
-  mrnSystem: http://www.goodhealth.org/identifiers/mrn
-  mrnUse: usual
-  ssnSystem: http://hl7.org/fhir/v2/0203
-  ssnLabel: SSN
-fhir:
-  serverUrl: https://open-api.fhir.me
-
