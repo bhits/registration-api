@@ -70,11 +70,12 @@ public class FhirResourceConverter {
         //setting patient mrn
        // String mrnValue = mrnService.generateMrn();
         patient.addIdentifier().setSystem(fhirIdentifierProperties.getMrnDomainId())
-                .setValue(medicalRecordNumber);
+                .setValue(medicalRecordNumber).setLabel(fhirIdentifierProperties.getMrnDomainLabel());
 
         // setting ssn value
-        patient.addIdentifier().setSystem(fhirIdentifierProperties.getSsnSystem())
-                .setValue(signupDto.getSsn()).setLabel(fhirIdentifierProperties.getSsnLabel());
+        if(signupDto.getSsn() != null && signupDto.getSsn().length()>0)
+            patient.addIdentifier().setSystem(fhirIdentifierProperties.getSsnSystem())
+                    .setValue(signupDto.getSsn()).setLabel(fhirIdentifierProperties.getSsnLabel());
 
 
     }
