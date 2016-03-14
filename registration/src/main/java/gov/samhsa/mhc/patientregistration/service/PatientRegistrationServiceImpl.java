@@ -124,9 +124,6 @@ public class PatientRegistrationServiceImpl implements PatientRegistrationServic
         return scimGroupResponse.getBody();
     }
 
-    private final String getPhrPatientProfileUri(Long patientId) {
-        return phrBaseUri + "/patients/" + patientId + "/profile";
-    }
 
     private final String getPhrPatientHealthUri() {
         return phrBaseUri + "/patients/";
