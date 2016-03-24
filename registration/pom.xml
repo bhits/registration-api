@@ -70,6 +70,7 @@
         <aspectjweaver>1.8.7</aspectjweaver>
         <maven.nexus.servername>BHITSMVNREP01</maven.nexus.servername>
         <hapi.fhir.version>1.4</hapi.fhir.version>
+        <docker.maven.version>0.4.3</docker.maven.version>
     </properties>
 
     <dependencyManagement>
@@ -196,6 +197,22 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker.maven.version}</version>
+                <configuration>
+                    <imageName>${project.artifactId}</imageName>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
             </plugin>
         </plugins>
 

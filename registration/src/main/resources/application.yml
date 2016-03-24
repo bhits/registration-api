@@ -1,3 +1,6 @@
+spring:
+  profiles:
+    active: docker
 server:
   context-path: /registration
   port: 8448
@@ -54,4 +57,21 @@ identifier:
   ssnLabel: SSN
 fhir:
   serverUrl: https://open-api.fhir.me
+
+---
+spring:
+  profiles: docker
+server:
+  ssl:
+    key-store: /java/keystore/mhc.keystore
+    key-store-password: changeit
+security:
+  oauth2:
+    resource:
+      user-info-uri: https://uaa.mhc:8443/uaa/userinfo
+oauth:
+  server:
+    uaa: https://uaa.mhc:8443/uaa
+  resources:
+    phr: https://phr.mhc:8445/phr
 
