@@ -36,7 +36,8 @@ public class PatientRegistrationServiceImpl implements PatientRegistrationServic
 
     @Override
     public SignupDto addPatient(SignupDto signupDto) {
-        //create patient in PHR
+
+       //create patient in PHR
         signupDto = createPatientInPhr(signupDto);
 
         //Create patient in HIE
