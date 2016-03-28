@@ -36,13 +36,6 @@ public class SignupDto
 
     @NotEmpty
     private String genderCode;
-
-    private String username;
-
-    @NotEmpty
-    @Size(min = 2, max = 30)
-    private String password;
-
     private String ssn;
     private String telephone;
     private String address;
@@ -92,22 +85,6 @@ public class SignupDto
 
     public void setGenderCode(String genderCode) {
         this.genderCode = genderCode;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getSsn() {

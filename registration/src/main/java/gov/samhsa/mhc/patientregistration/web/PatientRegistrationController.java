@@ -37,38 +37,4 @@ public class PatientRegistrationController {
             throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "Service not available.");
         }
     }
-
-    @RequestMapping(value = "/AssignPatientScopes/member/{memberId}", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.OK)
-      public void addUserToGroups(@PathVariable("memberId") String memberId) {
-        try {
-            patientRegistrationService.assignScopes(memberId);
-        } catch (HttpClientErrorException e) {
-            logger.error("    Stack Trace: " + e);
-            throw new HttpClientErrorException(e.getStatusCode(), e.getMessage());
-        } catch (Exception e) {
-            logger.error("    Stack Trace: " + e);
-            throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "Service not available.");
-        }
-    }
-
-
-    @RequestMapping(value = "/PatientScopes", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public SearchResults<ScimGroup> getMHCGroups() {
-        try {
-
-            return patientRegistrationService.getPatientScopes();
-
-        } catch (HttpClientErrorException e) {
-            logger.error("    Stack Trace: " + e);
-            throw new HttpClientErrorException(e.getStatusCode(), e.getMessage());
-        } catch (Exception e) {
-            logger.error("    Stack Trace: " + e);
-            throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "Service not available.");
-        }
-
-    }
-
-
 }

@@ -36,10 +36,6 @@ public class PatientRegistrationServiceImpl implements PatientRegistrationServic
 
     @Override
     public SignupDto addPatient(SignupDto signupDto) {
-
-        //create user account in UAA
-        createUserInUAA(signupDto);
-
         //create patient in PHR
         signupDto = createPatientInPhr(signupDto);
 
@@ -56,13 +52,6 @@ public class PatientRegistrationServiceImpl implements PatientRegistrationServic
         signupDto = restTemplate.postForObject(getPhrPatientHealthUri(), signupDto, SignupDto.class);
         return signupDto;
     }
-
-    private void createUserInUAA(SignupDto signupDto) {
-        ScimUser scimUser = mapSignupdtoToScimuser(signupDto);
-        ScimUser user = restTemplate.postForObject(uaaBaseUri + "/Users", scimUser, ScimUser.class);
-        assignScopes(user.getId());
-    }
-
     private SignupDto createPatientInHie(SignupDto signupDto) {
         try {
             signupDto = hiePatientService.addPatient(signupDto);
@@ -77,51 +66,6 @@ public class PatientRegistrationServiceImpl implements PatientRegistrationServic
     private void updatePatientInPhr(SignupDto signupDto) {
         //update MRN value in PHR
         restTemplate.put(getPhrPatientHealthUri() + "/" + signupDto.getId(), signupDto);
-    }
-
-
-    public ScimUser mapSignupdtoToScimuser(SignupDto signupDto) {
-
-        //use email as username
-        signupDto.setUsername(signupDto.getEmail());
-        ScimUser scimUser = new ScimUser(null, signupDto.getUsername(), signupDto.getFirstName(), signupDto.getLastName());
-
-        ScimUser.Email email = new ScimUser.Email();
-        email.setValue(signupDto.getEmail());
-        scimUser.setEmails(Collections.singletonList(email));
-        scimUser.setPassword(signupDto.getPassword());
-
-        ScimUser.PhoneNumber phone = new ScimUser.PhoneNumber();
-        phone.setValue(signupDto.getTelephone());
-        //TODO: Need to remove once activation workflow in place
-        scimUser.setVerified(true);
-        scimUser.setPhoneNumbers(Collections.singletonList(phone));
-
-        return scimUser;
-    }
-
-    @Override
-    public void assignScopes(String memberId) {
-        ScimGroupMember scimGroupMember = new ScimGroupMember(memberId);
-        List<ScimGroup> scimGroups = (List<ScimGroup>) getPatientScopes().getResources();
-
-        for (ScimGroup group : scimGroups) {
-            //Add the member to the groups.
-            restTemplate.postForObject(uaaBaseUri + "/Groups/{groupId}/members", scimGroupMember, ScimGroupMember.class, group.getId());
-        }
-    }
-
-    @Override
-    public SearchResults<ScimGroup> getPatientScopes() {
-        String queryParam = "displayName sw \"pcm\"  or displayName sw \"phr\"";
-        Map<String, String> params = new HashMap<>();
-        params.put("filter", queryParam);
-        ResponseEntity<SearchResults<ScimGroup>> scimGroupResponse =
-                restTemplate.exchange(uaaBaseUri + "/Groups?filter={filter}",
-                        HttpMethod.GET, null, new ParameterizedTypeReference<SearchResults<ScimGroup>>() {
-                        },
-                        params);
-        return scimGroupResponse.getBody();
     }
 
     private final String getPhrPatientProfileUri(Long patientId) {
