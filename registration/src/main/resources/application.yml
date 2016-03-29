@@ -1,6 +1,3 @@
-spring:
-  profiles:
-    active: docker
 server:
   context-path: /registration
   port: 8448
