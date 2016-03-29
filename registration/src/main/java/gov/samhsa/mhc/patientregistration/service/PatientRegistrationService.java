@@ -8,8 +8,4 @@ import org.cloudfoundry.identity.uaa.scim.ScimGroup;
 public interface PatientRegistrationService {
 
     SignupDto addPatient(SignupDto signupDto);
-
-    void assignScopes(String memberId);
-
-    SearchResults<ScimGroup> getPatientScopes();
 }
