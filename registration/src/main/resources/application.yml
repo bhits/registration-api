@@ -1,9 +1,5 @@
 server:
-  context-path: /registration
-  port: 8448
-  ssl:
-    key-store: /ssl_keystore.keystore
-    key-store-password: changeit
+  port: 0
 logging:
   file: /java/MHC_LOGS/registration/registration.log
   level:
@@ -12,21 +8,19 @@ logging:
         web: ERROR
       hibernate: ERROR
     gov:
-      samsha:
-        patientregistration: ERROR
+      samhsa:
+        mhc:
+          patientregistration: info
 security:
   basic:
     enabled: false
-spring.jmx:
-  enabled: false
-spring.oauth2:
-  client:
-    clientId: registration
-security.oauth2:
-  resource:
-    id: registration
-    jwt:
-      key-value:  |
+  oauth2:
+    client:
+      client-id: registration
+      access-token-uri: https://localhost:8443/uaa/oauth/token
+    resource:
+      jwt:
+        key-value: |
                          -----BEGIN PUBLIC KEY-----
                          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0m59l2u9iDnMbrXHfqkO
                          rn2dVQ3vfBJqcDuFUK03d+1PZGbVlNCqnkpIJ8syFppW8ljnWweP7+LiWpRoz0I7
@@ -36,12 +30,20 @@ security.oauth2:
                          jfj9Cw2QICsc5+Pwf21fP+hzf+1WSRHbnYv8uanRO0gZ8ekGaghM/2H6gqJbo2nI
                          JwIDAQAB
                          -----END PUBLIC KEY-----
-    userInfoUri: https://localhost:8443/uaa/userinfo
-oauth:
-  server:
-    uaa: https://localhost:8443/uaa
-  resources:
-    phr: https://localhost:8445/phr
+info:
+  component: Patient Registration API
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${random.value}}
+    secure-port-enabled: false
+    non-secure-port-enabled: true
+  client:
+    healthcheck:
+      enabled: true
+    service-url:
+      defaultZone: https://localhost:8761/eureka/
+# TODO: enable feign hystrix back when PHR API is refactored to a service that can be called by this API without OAuth2 token
+feign.hystrix.enabled: false
 identifier:
   mrnPrefix: MHC-DEV
   mrnDomainId: 2.16.840.1.113883.3.704.100.200.1.1.3.1
@@ -54,7 +56,25 @@ identifier:
   ssnLabel: SSN
 fhir:
   serverUrl: https://open-api.fhir.me
-
+---
+spring.profiles: ssl
+server:
+  port: 8448
+  ssl:
+    key-store: /ssl_keystore.keystore
+    key-store-password: changeit
+eureka:
+  instance:
+    secure-port: ${server.port}
+    secure-port-enabled: true
+    non-secure-port-enabled: false
+---
+spring.profiles: standalone-ssl
+spring:
+  profiles:
+    include: ssl
+server:
+  context-path: /patientRegistration
 ---
 spring:
   profiles: docker
@@ -62,13 +82,3 @@ server:
   ssl:
     key-store: /java/keystore/mhc.keystore
     key-store-password: changeit
-security:
-  oauth2:
-    resource:
-      user-info-uri: https://uaa.mhc:8443/uaa/userinfo
-oauth:
-  server:
-    uaa: https://uaa.mhc:8443/uaa
-  resources:
-    phr: https://phr.mhc:8445/phr
-
