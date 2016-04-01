@@ -18,12 +18,16 @@ public class FhirServiceConfig {
     @Value("${fhir.serverUrl}")
     String fhirServerUrl;
 
+    @Value("${fhir.fhirClientSocketTimeoutInMs}")
+    String fhirClientSocketTimeout;
+
     // Create a context
-    FhirContext fhirContext = new FhirContext();
+    FhirContext fhirContext = FhirContext.forDstu2();
 
     @Bean
     public IGenericClient fhirClient() {
         // Create a client
+        fhirContext.getRestfulClientFactory().setSocketTimeout(Integer.parseInt(fhirClientSocketTimeout));
         IGenericClient fhirClient = fhirContext.newRestfulGenericClient(fhirServerUrl);
         return fhirClient;
     }
