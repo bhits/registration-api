@@ -1,5 +1,5 @@
 server:
-  port: 0
+  port: 8448
 logging:
   file: /java/MHC_LOGS/registration/registration.log
   level:
