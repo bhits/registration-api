@@ -29,7 +29,7 @@ public class PatientDto
     @NotEmpty
     private String genderCode;
 
-    private String ssn;
+    private String socialSecurityNumber;
 
     private String telephone;
     private String address;
@@ -52,14 +52,14 @@ public class PatientDto
         this.email = email;
     }
 
-    public String getSsn()
+    public String getSocialSecurityNumber()
     {
-        return ssn;
+        return socialSecurityNumber;
     }
 
-    public void setSsn(String ssn)
+    public void setSocialSecurityNumber(String socialSecurityNumber)
     {
-        this.ssn = ssn;
+        this.socialSecurityNumber = socialSecurityNumber;
     }
 
     public String getTelephone()

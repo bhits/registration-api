@@ -1,9 +1,10 @@
 package gov.samhsa.mhc.patientregistration.service.util;
 
-import ca.uhn.fhir.model.dstu.resource.Patient;
-import ca.uhn.fhir.model.dstu.valueset.AdministrativeGenderCodesEnum;
-import ca.uhn.fhir.model.dstu.valueset.ContactSystemEnum;
-import ca.uhn.fhir.model.primitive.DateTimeDt;
+
+import ca.uhn.fhir.model.dstu2.resource.Patient;
+import ca.uhn.fhir.model.dstu2.valueset.AdministrativeGenderEnum;
+import ca.uhn.fhir.model.dstu2.valueset.ContactPointSystemEnum;
+import ca.uhn.fhir.model.primitive.DateDt;
 import gov.samhsa.mhc.patientregistration.config.FhirIdentifierProperties;
 import gov.samhsa.mhc.patientregistration.service.dto.SignupDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,8 @@ public class FhirResourceConverter {
     @Autowired
     FhirIdentifierProperties fhirIdentifierProperties;
 
-    public Patient convertToPatient(SignupDto signupDto ){
-         Patient patient = signupDtoToPatient.apply(signupDto);
+    public Patient convertToPatient(SignupDto signupDto) {
+        Patient patient = signupDtoToPatient.apply(signupDto);
 
         return patient;
     }
@@ -28,9 +29,9 @@ public class FhirResourceConverter {
             Patient patient = new Patient();
             //setting mandatory fields
             patient.addName().addFamily(signupDto.getLastName()).addGiven(signupDto.getFirstName());
-            patient.addTelecom().setValue(signupDto.getTelephone()).setSystem(ContactSystemEnum.PHONE);
-            patient.addTelecom().setValue(signupDto.getEmail()).setSystem(ContactSystemEnum.EMAIL);
-            patient.setBirthDate(new DateTimeDt(signupDto.getBirthDate()));
+            patient.addTelecom().setValue(signupDto.getTelephone()).setSystem(ContactPointSystemEnum.PHONE);
+            patient.addTelecom().setValue(signupDto.getEmail()).setSystem(ContactPointSystemEnum.EMAIL);
+            patient.setBirthDate(new DateDt(signupDto.getBirthDate()));
             patient.setGender(getPatientGender.apply(signupDto.getGenderCode()));
             patient.setActive(true);
 
@@ -38,25 +39,25 @@ public class FhirResourceConverter {
             setIdentifiers(patient, signupDto, signupDto.getMedicalRecordNumber());
 
             //optional fields
-            patient.addAddress().addLine(signupDto.getAddress()).setCity(signupDto.getCity()).setState(signupDto.getState()).setZip(signupDto.getZip());
+            patient.addAddress().addLine(signupDto.getAddress()).setCity(signupDto.getCity()).setState(signupDto.getState()).setPostalCode(signupDto.getZip());
 
             return patient;
         }
     };
 
 
-    Function<String, AdministrativeGenderCodesEnum> getPatientGender = new Function<String, AdministrativeGenderCodesEnum>() {
+    Function<String, AdministrativeGenderEnum> getPatientGender = new Function<String, AdministrativeGenderEnum>() {
         @Override
-        public AdministrativeGenderCodesEnum apply(String codeString) {
+        public AdministrativeGenderEnum apply(String codeString) {
             if (codeString != null && !"".equals(codeString) || codeString != null && !"".equals(codeString)) {
-                if ("male".equalsIgnoreCase(codeString) || "M".equalsIgnoreCase(codeString) ) {
-                    return AdministrativeGenderCodesEnum.M;
+                if ("male".equalsIgnoreCase(codeString) || "M".equalsIgnoreCase(codeString)) {
+                    return AdministrativeGenderEnum.MALE;
                 } else if ("female".equalsIgnoreCase(codeString) || "F".equalsIgnoreCase(codeString)) {
-                    return AdministrativeGenderCodesEnum.F;
+                    return AdministrativeGenderEnum.FEMALE;
                 } else if ("other".equalsIgnoreCase(codeString) || "O".equalsIgnoreCase(codeString)) {
-                    return AdministrativeGenderCodesEnum.UN;
+                    return AdministrativeGenderEnum.OTHER;
                 } else if ("unknown".equalsIgnoreCase(codeString) || "UN".equalsIgnoreCase(codeString)) {
-                    return AdministrativeGenderCodesEnum.UNK;
+                    return AdministrativeGenderEnum.UNKNOWN;
                 } else {
                     throw new IllegalArgumentException("Unknown AdministrativeGender code \'" + codeString + "\'");
                 }
@@ -65,17 +66,17 @@ public class FhirResourceConverter {
             }
         }
     };
-    private void setIdentifiers(Patient patient, SignupDto signupDto,  String medicalRecordNumber) {
+
+    private void setIdentifiers(Patient patient, SignupDto signupDto, String medicalRecordNumber) {
 
         //setting patient mrn
-       // String mrnValue = mrnService.generateMrn();
-        patient.addIdentifier().setSystem(fhirIdentifierProperties.getMrnDomainId())
-                .setValue(medicalRecordNumber).setLabel(fhirIdentifierProperties.getMrnDomainLabel());
+        // String mrnValue = mrnService.generateMrn();
+        patient.addIdentifier().setValue(medicalRecordNumber);
 
         // setting ssn value
-        if(signupDto.getSsn() != null && signupDto.getSsn().length()>0)
+        if(signupDto.getSocialSecurityNumber() != null && signupDto.getSocialSecurityNumber().length()>0)
             patient.addIdentifier().setSystem(fhirIdentifierProperties.getSsnSystem())
-                    .setValue(signupDto.getSsn()).setLabel(fhirIdentifierProperties.getSsnLabel());
+                    .setValue(signupDto.getSocialSecurityNumber()).setSystem(fhirIdentifierProperties.getSsnLabel());
 
 
     }

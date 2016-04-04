@@ -36,7 +36,7 @@ public class SignupDto
 
     @NotEmpty
     private String genderCode;
-    private String ssn;
+    private String socialSecurityNumber;
     private String telephone;
     private String address;
     private String city;
@@ -87,12 +87,12 @@ public class SignupDto
         this.genderCode = genderCode;
     }
 
-    public String getSsn() {
-        return ssn;
+    public String getSocialSecurityNumber() {
+        return socialSecurityNumber;
     }
 
-    public void setSsn(String ssn) {
-        this.ssn = ssn;
+    public void setSocialSecurityNumber(String socialSecurityNumber) {
+        this.socialSecurityNumber = socialSecurityNumber;
     }
 
     public String getTelephone() {

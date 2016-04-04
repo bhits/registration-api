@@ -2,7 +2,6 @@ package gov.samhsa.mhc.patientregistration.service;
 
 import gov.samhsa.mhc.patientregistration.infrastructure.PhrService;
 import gov.samhsa.mhc.patientregistration.service.dto.SignupDto;
-import org.hl7.fhir.exceptions.FHIRFormatError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +35,7 @@ public class PatientRegistrationServiceImpl implements PatientRegistrationServic
     private SignupDto createPatientInHie(SignupDto signupDto) {
         try {
             signupDto = hiePatientService.addPatient(signupDto);
-        } catch (FHIRFormatError fhirFormatError) {
+        } catch (Exception fhirFormatError) {
             fhirFormatError.printStackTrace();
         }
         return signupDto;
