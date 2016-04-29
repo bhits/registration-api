@@ -85,3 +85,5 @@ eureka:
       defaultZone: https://discovery-server.mhc.com:8761/eureka/
   instance:
     prefer-ip-address: true
+fhir:
+  serverUrl: https://iexhub.mhc.com:8443/iexhub/services
