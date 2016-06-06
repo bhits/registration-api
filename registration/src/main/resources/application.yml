@@ -46,7 +46,7 @@ eureka:
 feign.hystrix.enabled: false
 identifier:
   mrnPrefix: MHC-DEV
-  mrnDomainId: 2.16.840.1.113883.3.704.100.200.1.1.3.1
+  mrnDomainId: 1.3.6.1.4.1.21367.13.20.200
   mrnDomainType: ISO
   mrnDomainLabel: My Health Compass
   mrnIdLength: 6
