@@ -45,7 +45,7 @@ eureka:
 # TODO: enable feign hystrix back when PHR API is refactored to a service that can be called by this API without OAuth2 token
 feign.hystrix.enabled: false
 identifier:
-  mrnPrefix: MHC-DEV
+  mrnPrefix: C2S-DEV
   mrnDomainId: 1.3.6.1.4.1.21367.13.20.200
   mrnDomainType: ISO
   mrnDomainLabel: My Health Compass
