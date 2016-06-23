@@ -48,7 +48,7 @@ identifier:
   mrnPrefix: C2S-DEV
   mrnDomainId: 1.3.6.1.4.1.21367.13.20.200
   mrnDomainType: ISO
-  mrnDomainLabel: My Health Compass
+  mrnDomainLabel: Consent2Share
   mrnIdLength: 6
   mrnSystem: http://www.goodhealth.org/identifiers/mrn
   mrnUse: usual
