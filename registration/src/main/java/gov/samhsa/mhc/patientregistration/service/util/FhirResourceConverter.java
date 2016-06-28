@@ -4,6 +4,7 @@ package gov.samhsa.mhc.patientregistration.service.util;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.model.dstu2.valueset.AdministrativeGenderEnum;
 import ca.uhn.fhir.model.dstu2.valueset.ContactPointSystemEnum;
+import ca.uhn.fhir.model.dstu2.valueset.IdentifierUseEnum;
 import ca.uhn.fhir.model.primitive.DateDt;
 import gov.samhsa.mhc.patientregistration.config.FhirIdentifierProperties;
 import gov.samhsa.mhc.patientregistration.service.dto.SignupDto;
@@ -29,7 +30,6 @@ public class FhirResourceConverter {
             Patient patient = new Patient();
             //setting mandatory fields
             patient.addName().addFamily(signupDto.getLastName()).addGiven(signupDto.getFirstName());
-            patient.addTelecom().setValue(signupDto.getTelephone()).setSystem(ContactPointSystemEnum.PHONE);
             patient.addTelecom().setValue(signupDto.getEmail()).setSystem(ContactPointSystemEnum.EMAIL);
             patient.setBirthDate(new DateDt(signupDto.getBirthDate()));
             patient.setGender(getPatientGender.apply(signupDto.getGenderCode()));
@@ -40,7 +40,8 @@ public class FhirResourceConverter {
 
             //optional fields
             patient.addAddress().addLine(signupDto.getAddress()).setCity(signupDto.getCity()).setState(signupDto.getState()).setPostalCode(signupDto.getZip());
-
+            if(null != signupDto.getTelephone() && ! signupDto.getTelephone().isEmpty())
+                patient.addTelecom().setValue(signupDto.getTelephone()).setSystem(ContactPointSystemEnum.PHONE);
             return patient;
         }
     };
@@ -74,9 +75,9 @@ public class FhirResourceConverter {
        // patient.addIdentifier().setValue(medicalRecordNumber);
        // patient.setId(new IdDt(medicalRecordNumber));
         // setting MRN value
-
+       // patient.setId(new IdDt(medicalRecordNumber));
         patient.addIdentifier().setSystem(fhirIdentifierProperties.getMrnDomainLabel())
-                    .setValue(medicalRecordNumber).setSystem(fhirIdentifierProperties.getMrnDomainId());
+                    .setUse(IdentifierUseEnum.OFFICIAL).setValue(medicalRecordNumber).setSystem(fhirIdentifierProperties.getMrnDomainId());
 
         // setting ssn value
         if(signupDto.getSocialSecurityNumber() != null && signupDto.getSocialSecurityNumber().length()>0)
