@@ -39,7 +39,7 @@ public class FhirResourceConverter {
             setIdentifiers(patient, signupDto, signupDto.getMedicalRecordNumber());
 
             //optional fields
-            patient.addAddress().addLine(signupDto.getAddress()).setCity(signupDto.getCity()).setState(signupDto.getState()).setPostalCode(signupDto.getZip());
+            patient.addAddress().addLine(signupDto.getAddress()).setCity(signupDto.getCity()).setState(signupDto.getStateCode()).setPostalCode(signupDto.getZip());
             if(null != signupDto.getTelephone() && ! signupDto.getTelephone().isEmpty())
                 patient.addTelecom().setValue(signupDto.getTelephone()).setSystem(ContactPointSystemEnum.PHONE);
             return patient;

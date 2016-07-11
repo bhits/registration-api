@@ -40,7 +40,7 @@ public class SignupDto
     private String telephone;
     private String address;
     private String city;
-    private String state;
+    private String stateCode;
     private String zip;
 
     private String resourceIdentifier;
@@ -119,12 +119,12 @@ public class SignupDto
         this.city = city;
     }
 
-    public String getState() {
-        return state;
+    public String getStateCode() {
+        return stateCode;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setStateCode(String stateCode) {
+        this.stateCode = stateCode;
     }
 
     public String getZip() {

@@ -34,7 +34,7 @@ public class PatientDto
     private String telephone;
     private String address;
     private String city;
-    private String state;
+    private String stateCode;
     private String zip;
 
     private String resourceIdentifier;
@@ -122,14 +122,14 @@ public class PatientDto
         this.city = city;
     }
 
-    public String getState()
+    public String getStateCode()
     {
-        return state;
+        return stateCode;
     }
 
-    public void setState(String state)
+    public void setStateCode(String stateCode)
     {
-        this.state = state;
+        this.stateCode = stateCode;
     }
 
     public String getZip()
