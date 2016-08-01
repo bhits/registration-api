@@ -55,6 +55,7 @@ identifier:
   ssnSystem: http://hl7.org/fhir/v2/0203
   ssnLabel: SSN
 fhir:
+  enabled: false
   serverUrl: https://localhost:8443/iexhub/services
   fhirClientSocketTimeoutInMs: 768000
 ---

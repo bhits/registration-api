@@ -7,42 +7,39 @@ import ca.uhn.fhir.rest.client.IGenericClient;
 import ca.uhn.fhir.validation.FhirValidator;
 import ca.uhn.fhir.validation.ValidationResult;
 import gov.samhsa.mhc.patientregistration.service.dto.SignupDto;
+import gov.samhsa.mhc.patientregistration.service.exception.FHIRFormatErrorException;
 import gov.samhsa.mhc.patientregistration.service.util.FhirResourceConverter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class HiePatientServiceImpl implements HiePatientService {
 
     @Autowired
-    MrnService mrnService;
+    private IGenericClient fhirClient;
 
     @Autowired
-    IGenericClient fhirClient;
+    private FhirValidator fhirValidator;
 
     @Autowired
-    FhirValidator fhirValidator;
+    private IParser fhirJsonParser;
 
     @Autowired
-    IParser fhirJsonParser;
-
-    @Autowired
-    FhirResourceConverter fhirResourceConverter;
+    private FhirResourceConverter fhirResourceConverter;
 
     @Override
-    public SignupDto addPatient(SignupDto signupDto) throws Exception {
-
-        //set to patientDto
-        signupDto.setMedicalRecordNumber(createMrnValue());
+    public SignupDto addPatient(SignupDto signupDto) {
 
         Patient patient = fhirResourceConverter.convertToPatient(signupDto);
 
         //validate the resource
         ValidationResult validationResult = fhirValidator.validateWithResult(patient);
-        System.out.println("Success: " + validationResult.isSuccessful());
+        log.debug("validationResult.isSuccessful(): " + validationResult.isSuccessful());
         //throw format error if the validation is not successful
         if (!validationResult.isSuccessful()) {
-            throw new Exception("Patient Validation is not successful" + validationResult.getMessages());
+            throw new FHIRFormatErrorException("Patient Validation is not successful" + validationResult.getMessages());
         }
 
             /*
@@ -54,19 +51,11 @@ public class HiePatientServiceImpl implements HiePatientService {
         MethodOutcome outcome = fhirClient.create().resource(patient).execute();
 
         //TODO : Need to store Eid value once integrate with IExhub
-      //  signupDto.setResourceIdentifier(outcome.getId().getIdPart());
+        //  signupDto.setResourceIdentifier(outcome.getId().getIdPart());
 
         //print the output
-       // System.out.println("Patient Resource Id" + signupDto.getResourceIdentifier());
+        // System.out.println("Patient Resource Id" + signupDto.getResourceIdentifier());
 
         return signupDto;
     }
-
-
-    private String createMrnValue() {
-
-        return mrnService.generateMrn();
-    }
-
-
 }

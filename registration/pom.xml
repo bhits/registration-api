@@ -67,6 +67,7 @@
         <maven.nexus.servername>BHITSMVNREP01</maven.nexus.servername>
         <hapi.fhir.version>1.4</hapi.fhir.version>
         <docker.maven.version>0.4.3</docker.maven.version>
+        <lombok.version>1.16.6</lombok.version>
         <mhc-common-libraries.version>1.2.0</mhc-common-libraries.version>
     </properties>
 
@@ -78,9 +79,19 @@
                 <version>${mhc-common-libraries.version}</version>
             </dependency>
             <dependency>
+                <groupId>gov.samhsa.mhc</groupId>
+                <artifactId>logger-wrapper</artifactId>
+                <version>${mhc-common-libraries.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjweaver</artifactId>
                 <version>${aspectjweaver}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
             </dependency>
             <!-- HAPI FHIR JARS -->
             <dependency>
@@ -116,6 +127,10 @@
             <artifactId>oauth2</artifactId>
         </dependency>
         <dependency>
+            <groupId>gov.samhsa.mhc</groupId>
+            <artifactId>logger-wrapper</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
@@ -142,6 +157,10 @@
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
         <!-- HAPI FHIR JARS -->
         <dependency>
