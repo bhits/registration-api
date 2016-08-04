@@ -4,7 +4,6 @@ import gov.samhsa.mhc.common.log.Logger;
 import gov.samhsa.mhc.common.log.LoggerFactory;
 import gov.samhsa.mhc.patientregistration.infrastructure.PhrService;
 import gov.samhsa.mhc.patientregistration.service.dto.SignupDto;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,7 @@ public class PatientRegistrationServiceImpl implements PatientRegistrationServic
     @Override
     public SignupDto addPatient(SignupDto signupDto) {
         Assert.isNull(signupDto.getId(), "ID is not allowed to be provided for a new patient");
-        val mrn = mrnService.generateMrn();
+        final String mrn = mrnService.generateMrn();
         signupDto.setMedicalRecordNumber(mrn);
         if (fhirEnabled) {
             logger.debug(signupDto::toString);
