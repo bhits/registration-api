@@ -2,6 +2,7 @@ package gov.samhsa.mhc.patientregistration.web;
 
 import gov.samhsa.mhc.patientregistration.service.PatientRegistrationService;
 import gov.samhsa.mhc.patientregistration.service.dto.SignupDto;
+import gov.samhsa.mhc.patientregistration.service.exception.PatientNotSavedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,15 @@ public class PatientRegistrationController {
             logger.error("    Stack Trace: " + e);
             logger.debug(e.getMessage(), e);
             throw new HttpClientErrorException(e.getStatusCode(), e.getMessage());
-        } catch (Exception e) {
+        }catch (Exception e) {
             logger.error("    Stack Trace: " + e);
             logger.debug(e.getMessage(), e);
-            throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "Service not available.");
+            if(e.getMessage().toLowerCase().contains("email")){
+                throw new PatientNotSavedException("Sorry, the email address provided is already in use.");
+            } else {
+                throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "Service not available.");
+            }
+
         }
     }
 }
