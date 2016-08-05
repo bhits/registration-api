@@ -5,20 +5,18 @@ import gov.samhsa.mhc.common.log.LoggerFactory;
 import gov.samhsa.mhc.patientregistration.infrastructure.PhrService;
 import gov.samhsa.mhc.patientregistration.service.dto.SignupDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+import java.util.Optional;
 
 @Service
 public class PatientRegistrationServiceImpl implements PatientRegistrationService {
 
     private final Logger logger = LoggerFactory.getLogger(this);
 
-    @Value("${fhir.enabled}")
-    private boolean fhirEnabled;
-
     @Autowired
-    private HiePatientService hiePatientService;
+    private Optional<HiePatientService> hiePatientService;
 
     @Autowired
     private PhrService phrService;
@@ -31,18 +29,13 @@ public class PatientRegistrationServiceImpl implements PatientRegistrationServic
         Assert.isNull(signupDto.getId(), "ID is not allowed to be provided for a new patient");
         final String mrn = mrnService.generateMrn();
         signupDto.setMedicalRecordNumber(mrn);
-        if (fhirEnabled) {
-            logger.debug(signupDto::toString);
-            logger.info("FHIR is enabled, calling HIE for patient registration");
-            //Create patient in HIE
-            signupDto = createPatientInHie(signupDto);
-            logger.debug(signupDto::toString);
-        } else {
-            logger.info("FHIR is disabled, skipping HIE for patient registration");
-        }
+        logger.debug(signupDto::toString);
+
+        //Create patient in HIE (if configured)
+        signupDto = createPatientInHie(signupDto);
+        logger.debug(signupDto::toString);
 
         //create patient in PHR
-        logger.info("Calling PHR to create patient");
         signupDto = createPatientInPhr(signupDto);
         logger.debug(signupDto::toString);
 
@@ -50,18 +43,21 @@ public class PatientRegistrationServiceImpl implements PatientRegistrationServic
     }
 
     private SignupDto createPatientInPhr(SignupDto signupDto) {
+        logger.info("Calling PHR to create patient");
         return phrService.createPatient(signupDto);
     }
 
     private SignupDto createPatientInHie(SignupDto signupDto) {
         try {
-            signupDto = hiePatientService.addPatient(signupDto);
+            logger.info(() -> hiePatientService
+                    .map(hie -> "HiePatientService is configured: " + hie.toString())
+                    .orElse("No HiePatientService is available, skipping HIE for patient registration"));
+            return hiePatientService.map(hie -> hie.addPatient(signupDto)).orElse(signupDto);
         } catch (Exception e) {
             logger.error(e.getMessage());
             logger.debug(e.getMessage(), e);
             throw e;
         }
-        return signupDto;
     }
 
     private void updatePatientInPhr(SignupDto signupDto) {

@@ -6,7 +6,7 @@ import ca.uhn.fhir.model.dstu2.valueset.AdministrativeGenderEnum;
 import ca.uhn.fhir.model.dstu2.valueset.ContactPointSystemEnum;
 import ca.uhn.fhir.model.dstu2.valueset.IdentifierUseEnum;
 import ca.uhn.fhir.model.primitive.DateDt;
-import gov.samhsa.mhc.patientregistration.config.FhirIdentifierProperties;
+import gov.samhsa.mhc.patientregistration.config.IdentifierProperties;
 import gov.samhsa.mhc.patientregistration.service.dto.SignupDto;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,37 +16,7 @@ import java.util.function.Function;
 public class FhirResourceConverter {
 
     @Autowired
-    FhirIdentifierProperties fhirIdentifierProperties;
-
-    public Patient convertToPatient(SignupDto signupDto) {
-        Patient patient = signupDtoToPatient.apply(signupDto);
-
-        return patient;
-    }
-
-    Function<SignupDto, Patient> signupDtoToPatient = new Function<SignupDto, Patient>() {
-        @Override
-        public Patient apply(SignupDto signupDto) {
-            Patient patient = new Patient();
-            //setting mandatory fields
-            patient.addName().addFamily(signupDto.getLastName()).addGiven(signupDto.getFirstName());
-            patient.addTelecom().setValue(signupDto.getEmail()).setSystem(ContactPointSystemEnum.EMAIL);
-            patient.setBirthDate(new DateDt(signupDto.getBirthDate()));
-            patient.setGender(getPatientGender.apply(signupDto.getGenderCode()));
-            patient.setActive(true);
-
-            //Add an Identifier
-            setIdentifiers(patient, signupDto, signupDto.getMedicalRecordNumber());
-
-            //optional fields
-            patient.addAddress().addLine(signupDto.getAddress()).setCity(signupDto.getCity()).setState(signupDto.getStateCode()).setPostalCode(signupDto.getZip());
-            if(null != signupDto.getTelephone() && ! signupDto.getTelephone().isEmpty())
-                patient.addTelecom().setValue(signupDto.getTelephone()).setSystem(ContactPointSystemEnum.PHONE);
-            return patient;
-        }
-    };
-
-
+    IdentifierProperties identifierProperties;
     Function<String, AdministrativeGenderEnum> getPatientGender = new Function<String, AdministrativeGenderEnum>() {
         @Override
         public AdministrativeGenderEnum apply(String codeString) {
@@ -67,22 +37,49 @@ public class FhirResourceConverter {
             }
         }
     };
+    Function<SignupDto, Patient> signupDtoToPatient = new Function<SignupDto, Patient>() {
+        @Override
+        public Patient apply(SignupDto signupDto) {
+            Patient patient = new Patient();
+            //setting mandatory fields
+            patient.addName().addFamily(signupDto.getLastName()).addGiven(signupDto.getFirstName());
+            patient.addTelecom().setValue(signupDto.getEmail()).setSystem(ContactPointSystemEnum.EMAIL);
+            patient.setBirthDate(new DateDt(signupDto.getBirthDate()));
+            patient.setGender(getPatientGender.apply(signupDto.getGenderCode()));
+            patient.setActive(true);
+
+            //Add an Identifier
+            setIdentifiers(patient, signupDto, signupDto.getMedicalRecordNumber());
+
+            //optional fields
+            patient.addAddress().addLine(signupDto.getAddress()).setCity(signupDto.getCity()).setState(signupDto.getStateCode()).setPostalCode(signupDto.getZip());
+            if (null != signupDto.getTelephone() && !signupDto.getTelephone().isEmpty())
+                patient.addTelecom().setValue(signupDto.getTelephone()).setSystem(ContactPointSystemEnum.PHONE);
+            return patient;
+        }
+    };
+
+    public Patient convertToPatient(SignupDto signupDto) {
+        Patient patient = signupDtoToPatient.apply(signupDto);
+
+        return patient;
+    }
 
     private void setIdentifiers(Patient patient, SignupDto signupDto, String medicalRecordNumber) {
 
         //setting patient mrn
         // String mrnValue = mrnService.generateMrn();
-       // patient.addIdentifier().setValue(medicalRecordNumber);
-       // patient.setId(new IdDt(medicalRecordNumber));
+        // patient.addIdentifier().setValue(medicalRecordNumber);
+        // patient.setId(new IdDt(medicalRecordNumber));
         // setting MRN value
-       // patient.setId(new IdDt(medicalRecordNumber));
-        patient.addIdentifier().setSystem(fhirIdentifierProperties.getMrnDomainLabel())
-                    .setUse(IdentifierUseEnum.OFFICIAL).setValue(medicalRecordNumber).setSystem(fhirIdentifierProperties.getMrnDomainId());
+        // patient.setId(new IdDt(medicalRecordNumber));
+        patient.addIdentifier().setSystem(identifierProperties.getMrnDomainLabel())
+                .setUse(IdentifierUseEnum.OFFICIAL).setValue(medicalRecordNumber).setSystem(identifierProperties.getMrnDomainId());
 
         // setting ssn value
-        if(signupDto.getSocialSecurityNumber() != null && signupDto.getSocialSecurityNumber().length()>0)
-            patient.addIdentifier().setSystem(fhirIdentifierProperties.getSsnSystem())
-                    .setValue(signupDto.getSocialSecurityNumber()).setSystem(fhirIdentifierProperties.getSsnLabel());
+        if (signupDto.getSocialSecurityNumber() != null && signupDto.getSocialSecurityNumber().length() > 0)
+            patient.addIdentifier().setSystem(identifierProperties.getSsnSystem())
+                    .setValue(signupDto.getSocialSecurityNumber()).setSystem(identifierProperties.getSsnLabel());
 
 
     }

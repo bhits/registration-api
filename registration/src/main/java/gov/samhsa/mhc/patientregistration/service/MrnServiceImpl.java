@@ -1,6 +1,6 @@
 package gov.samhsa.mhc.patientregistration.service;
 
-import gov.samhsa.mhc.patientregistration.config.FhirIdentifierProperties;
+import gov.samhsa.mhc.patientregistration.config.IdentifierProperties;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,10 +9,11 @@ import org.springframework.stereotype.Service;
  * The Class MrnServiceImpl.
  */
 @Service
-public class MrnServiceImpl implements  MrnService{
+public class MrnServiceImpl implements MrnService {
 
     @Autowired
-    FhirIdentifierProperties fhirIdentifierProperties;
+    IdentifierProperties identifierProperties;
+
     @Override
     public String generateMrn() {
         //TODO: Need to cross verify with existing mrns from phr db
@@ -26,13 +27,12 @@ public class MrnServiceImpl implements  MrnService{
      */
     private String generateRandomMrn() {
         StringBuilder localIdIdBuilder = new StringBuilder();
-        if (null != fhirIdentifierProperties.getMrnPrefix()) {
-            localIdIdBuilder.append(new String(fhirIdentifierProperties.getMrnPrefix()));
+        if (null != identifierProperties.getMrnPrefix()) {
+            localIdIdBuilder.append(new String(identifierProperties.getMrnPrefix()));
             localIdIdBuilder.append(".");
         }
         localIdIdBuilder.append(RandomStringUtils
-                .randomAlphanumeric((Integer.parseInt(fhirIdentifierProperties.getMrnIdLength()))));
+                .randomAlphanumeric((Integer.parseInt(identifierProperties.getMrnIdLength()))));
         return localIdIdBuilder.toString().toUpperCase();
     }
-
 }

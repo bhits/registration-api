@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import gov.samhsa.mhc.patientregistration.service.util.CustomJsonDateDeserializer;
 import gov.samhsa.mhc.patientregistration.service.util.CustomJsonDateSerializer;
 import lombok.Data;
+import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -14,6 +15,7 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Data
+@ToString(exclude = "socialSecurityNumber")
 public class SignupDto {
     private Long id;
 

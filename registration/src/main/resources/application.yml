@@ -54,10 +54,11 @@ identifier:
   mrnUse: usual
   ssnSystem: http://hl7.org/fhir/v2/0203
   ssnLabel: SSN
-fhir:
-  enabled: false
-  serverUrl: https://localhost:8443/iexhub/services
-  fhirClientSocketTimeoutInMs: 768000
+hie-connection:
+  fhir:
+    enabled: false
+    serverUrl: https://localhost:8443/iexhub/services
+    fhirClientSocketTimeoutInMs: 768000
 ---
 spring.profiles: ssl
 server:
