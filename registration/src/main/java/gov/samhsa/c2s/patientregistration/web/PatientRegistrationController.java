@@ -1,8 +1,8 @@
-package gov.samhsa.mhc.patientregistration.web;
+package gov.samhsa.c2s.patientregistration.web;
 
-import gov.samhsa.mhc.patientregistration.service.PatientRegistrationService;
-import gov.samhsa.mhc.patientregistration.service.dto.SignupDto;
-import gov.samhsa.mhc.patientregistration.service.exception.PatientNotSavedException;
+import gov.samhsa.c2s.patientregistration.service.PatientRegistrationService;
+import gov.samhsa.c2s.patientregistration.service.dto.SignupDto;
+import gov.samhsa.c2s.patientregistration.service.exception.PatientNotSavedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

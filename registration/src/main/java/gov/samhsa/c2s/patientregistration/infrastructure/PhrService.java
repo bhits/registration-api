@@ -1,7 +1,7 @@
-package gov.samhsa.mhc.patientregistration.infrastructure;
+package gov.samhsa.c2s.patientregistration.infrastructure;
 
-import gov.samhsa.mhc.patientregistration.config.OAuth2FeignClientConfig;
-import gov.samhsa.mhc.patientregistration.service.dto.SignupDto;
+import gov.samhsa.c2s.patientregistration.service.dto.SignupDto;
+import gov.samhsa.c2s.patientregistration.config.OAuth2FeignClientConfig;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;

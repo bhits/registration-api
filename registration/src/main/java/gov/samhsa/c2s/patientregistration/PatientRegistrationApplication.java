@@ -1,4 +1,4 @@
-package gov.samhsa.mhc.patientregistration;
+package gov.samhsa.c2s.patientregistration;
 
 
 import org.springframework.boot.SpringApplication;

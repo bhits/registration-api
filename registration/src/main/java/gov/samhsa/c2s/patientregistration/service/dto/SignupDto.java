@@ -1,9 +1,9 @@
-package gov.samhsa.mhc.patientregistration.service.dto;
+package gov.samhsa.c2s.patientregistration.service.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import gov.samhsa.mhc.patientregistration.service.util.CustomJsonDateDeserializer;
-import gov.samhsa.mhc.patientregistration.service.util.CustomJsonDateSerializer;
+import gov.samhsa.c2s.patientregistration.service.util.CustomJsonDateDeserializer;
+import gov.samhsa.c2s.patientregistration.service.util.CustomJsonDateSerializer;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotEmpty;

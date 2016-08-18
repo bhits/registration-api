@@ -1,4 +1,4 @@
-package gov.samhsa.mhc.patientregistration.config;
+package gov.samhsa.c2s.patientregistration.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

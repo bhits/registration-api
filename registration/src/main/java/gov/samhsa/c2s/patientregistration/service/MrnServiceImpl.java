@@ -1,6 +1,6 @@
-package gov.samhsa.mhc.patientregistration.service;
+package gov.samhsa.c2s.patientregistration.service;
 
-import gov.samhsa.mhc.patientregistration.config.IdentifierProperties;
+import gov.samhsa.c2s.patientregistration.config.IdentifierProperties;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

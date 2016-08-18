@@ -1,4 +1,4 @@
-package gov.samhsa.mhc.patientregistration.config;
+package gov.samhsa.c2s.patientregistration.config;
 
 import org.springframework.cloud.security.oauth2.client.feign.OAuth2FeignRequestInterceptor;
 import org.springframework.context.annotation.Bean;

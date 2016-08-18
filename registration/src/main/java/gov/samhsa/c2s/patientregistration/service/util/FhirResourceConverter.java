@@ -1,4 +1,4 @@
-package gov.samhsa.mhc.patientregistration.service.util;
+package gov.samhsa.c2s.patientregistration.service.util;
 
 
 import ca.uhn.fhir.model.dstu2.resource.Patient;
@@ -6,8 +6,8 @@ import ca.uhn.fhir.model.dstu2.valueset.AdministrativeGenderEnum;
 import ca.uhn.fhir.model.dstu2.valueset.ContactPointSystemEnum;
 import ca.uhn.fhir.model.dstu2.valueset.IdentifierUseEnum;
 import ca.uhn.fhir.model.primitive.DateDt;
-import gov.samhsa.mhc.patientregistration.config.IdentifierProperties;
-import gov.samhsa.mhc.patientregistration.service.dto.SignupDto;
+import gov.samhsa.c2s.patientregistration.service.dto.SignupDto;
+import gov.samhsa.c2s.patientregistration.config.IdentifierProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.function.Function;

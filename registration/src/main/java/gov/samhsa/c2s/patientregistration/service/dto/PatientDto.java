@@ -1,4 +1,4 @@
-package gov.samhsa.mhc.patientregistration.service.dto;
+package gov.samhsa.c2s.patientregistration.service.dto;
 
 import org.hibernate.validator.constraints.NotEmpty;
 

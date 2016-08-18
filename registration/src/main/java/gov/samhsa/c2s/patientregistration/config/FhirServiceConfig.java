@@ -1,10 +1,10 @@
-package gov.samhsa.mhc.patientregistration.config;
+package gov.samhsa.c2s.patientregistration.config;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
 import ca.uhn.fhir.rest.client.IGenericClient;
 import ca.uhn.fhir.validation.FhirValidator;
-import gov.samhsa.mhc.patientregistration.service.util.FhirResourceConverter;
+import gov.samhsa.c2s.patientregistration.service.util.FhirResourceConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;

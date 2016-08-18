@@ -1,4 +1,4 @@
-package gov.samhsa.mhc.patientregistration.service;
+package gov.samhsa.c2s.patientregistration.service;
 
 import org.springframework.stereotype.Service;
 

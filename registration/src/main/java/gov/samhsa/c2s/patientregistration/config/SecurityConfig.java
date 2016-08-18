@@ -1,4 +1,4 @@
-package gov.samhsa.mhc.patientregistration.config;
+package gov.samhsa.c2s.patientregistration.config;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
