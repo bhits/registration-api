@@ -2,8 +2,8 @@ package gov.samhsa.c2s.patientregistration.service;
 
 import gov.samhsa.c2s.patientregistration.infrastructure.PhrService;
 import gov.samhsa.c2s.patientregistration.service.dto.SignupDto;
-import gov.samhsa.mhc.common.log.Logger;
-import gov.samhsa.mhc.common.log.LoggerFactory;
+import gov.samhsa.c2s.common.log.Logger;
+import gov.samhsa.c2s.common.log.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;

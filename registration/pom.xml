@@ -68,20 +68,20 @@
         <hapi.fhir.version>1.4</hapi.fhir.version>
         <docker.maven.version>0.4.3</docker.maven.version>
         <lombok.version>1.16.6</lombok.version>
-        <mhc-common-libraries.version>1.2.0</mhc-common-libraries.version>
+        <c2s-common-libraries.version>1.5.0</c2s-common-libraries.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>gov.samhsa.mhc</groupId>
+                <groupId>gov.samhsa.c2s</groupId>
                 <artifactId>oauth2</artifactId>
-                <version>${mhc-common-libraries.version}</version>
+                <version>${c2s-common-libraries.version}</version>
             </dependency>
             <dependency>
-                <groupId>gov.samhsa.mhc</groupId>
+                <groupId>gov.samhsa.c2s</groupId>
                 <artifactId>logger-wrapper</artifactId>
-                <version>${mhc-common-libraries.version}</version>
+                <version>${c2s-common-libraries.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.aspectj</groupId>
@@ -123,11 +123,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>gov.samhsa.mhc</groupId>
+            <groupId>gov.samhsa.c2s</groupId>
             <artifactId>oauth2</artifactId>
         </dependency>
         <dependency>
-            <groupId>gov.samhsa.mhc</groupId>
+            <groupId>gov.samhsa.c2s</groupId>
             <artifactId>logger-wrapper</artifactId>
         </dependency>
         <dependency>
