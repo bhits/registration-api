@@ -1,9 +1,12 @@
 package gov.samhsa.c2s.patientregistration.service;
 
-import gov.samhsa.c2s.patientregistration.infrastructure.PhrService;
-import gov.samhsa.c2s.patientregistration.service.dto.SignupDto;
 import gov.samhsa.c2s.common.log.Logger;
 import gov.samhsa.c2s.common.log.LoggerFactory;
+import gov.samhsa.c2s.patientregistration.infrastructure.PhrService;
+import gov.samhsa.c2s.patientregistration.service.dto.SignupDto;
+import gov.samhsa.c2s.patientregistration.service.exception.EmailExistsException;
+import gov.samhsa.c2s.patientregistration.service.exception.PatientNotSavedException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -43,8 +46,18 @@ public class PatientRegistrationServiceImpl implements PatientRegistrationServic
     }
 
     private SignupDto createPatientInPhr(SignupDto signupDto) {
-        logger.info("Calling PHR to create patient");
-        return phrService.createPatient(signupDto);
+        try {
+            logger.info("Calling PHR to create patient");
+            return phrService.createPatient(signupDto);
+        } catch (Exception e) {
+            logger.error("Stack Trace: " + e);
+            logger.debug(e::getMessage, e);
+            if (checkEmailViolationException(e)) {
+                throw new EmailExistsException("The email already exists.");
+            } else {
+                throw new PatientNotSavedException("Error in creating patient.");
+            }
+        }
     }
 
     private SignupDto createPatientInHie(SignupDto signupDto) {
@@ -62,6 +75,12 @@ public class PatientRegistrationServiceImpl implements PatientRegistrationServic
 
     private void updatePatientInPhr(SignupDto signupDto) {
         phrService.updatePatient(signupDto.getId(), signupDto);
+    }
+
+    private boolean checkEmailViolationException(Exception exception) {
+        String exceptionMessage = exception.getMessage();
+        return StringUtils.startsWithIgnoreCase(exceptionMessage, "status 409") &&
+                StringUtils.containsIgnoreCase(exceptionMessage, "EmailExistsException");
     }
 }
 
