@@ -2,34 +2,6 @@ server:
   port: 8448
 logging:
   file: /java/C2S_LOGS/registration/registration.log
-  level:
-    org:
-      springframework:
-        web: ERROR
-      hibernate: ERROR
-    gov:
-      samhsa:
-        c2s:
-          patientregistration: info
-security:
-  basic:
-    enabled: false
-  oauth2:
-    client:
-      client-id: registration
-      access-token-uri: https://localhost:8443/uaa/oauth/token
-    resource:
-      jwt:
-        key-value: |
-                         -----BEGIN PUBLIC KEY-----
-                         MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0m59l2u9iDnMbrXHfqkO
-                         rn2dVQ3vfBJqcDuFUK03d+1PZGbVlNCqnkpIJ8syFppW8ljnWweP7+LiWpRoz0I7
-                         fYb3d8TjhV86Y997Fl4DBrxgM6KTJOuE/uxnoDhZQ14LgOU2ckXjOzOdTsnGMKQB
-                         LCl0vpcXBtFLMaSbpv1ozi8h7DJyVZ6EnFQZUWGdgTMhDrmqevfx95U/16c5WBDO
-                         kqwIn7Glry9n9Suxygbf8g5AzpWcusZgDLIIZ7JTUldBb8qU2a0Dl4mvLZOn4wPo
-                         jfj9Cw2QICsc5+Pwf21fP+hzf+1WSRHbnYv8uanRO0gZ8ekGaghM/2H6gqJbo2nI
-                         JwIDAQAB
-                         -----END PUBLIC KEY-----
 info:
   component: Patient Registration API
 eureka:
@@ -41,12 +13,34 @@ eureka:
     healthcheck:
       enabled: true
     service-url:
-      defaultZone: https://localhost:8761/eureka/
+      # endpoint for discovery-server, pass '--eureka.client.protocol=https' if discovery-server is running on https
+      defaultZone: ${eureka.client.protocol:http}://localhost:8761/eureka/
 # TODO: enable feign hystrix back when PHR API is refactored to a service that can be called by this API without OAuth2 token
 feign.hystrix.enabled: false
+security:
+  basic:
+    enabled: false
+  oauth2:
+    client:
+      client-id: registration
+    resource:
+      jwt:
+        # public key to validate the token signed by authorization server
+        key-value: |
+                         -----BEGIN PUBLIC KEY-----
+                         MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0m59l2u9iDnMbrXHfqkO
+                         rn2dVQ3vfBJqcDuFUK03d+1PZGbVlNCqnkpIJ8syFppW8ljnWweP7+LiWpRoz0I7
+                         fYb3d8TjhV86Y997Fl4DBrxgM6KTJOuE/uxnoDhZQ14LgOU2ckXjOzOdTsnGMKQB
+                         LCl0vpcXBtFLMaSbpv1ozi8h7DJyVZ6EnFQZUWGdgTMhDrmqevfx95U/16c5WBDO
+                         kqwIn7Glry9n9Suxygbf8g5AzpWcusZgDLIIZ7JTUldBb8qU2a0Dl4mvLZOn4wPo
+                         jfj9Cw2QICsc5+Pwf21fP+hzf+1WSRHbnYv8uanRO0gZ8ekGaghM/2H6gqJbo2nI
+                         JwIDAQAB
+                         -----END PUBLIC KEY-----
 identifier:
   mrnPrefix: C2S-DEV
+  # Domain OID for C2S MRN
   mrnDomainId: 1.3.6.1.4.1.21367.13.20.200
+  # ID Type for C2S MRN
   mrnDomainType: ISO
   mrnDomainLabel: Consent2Share
   mrnIdLength: 6
@@ -60,9 +54,11 @@ hie-connection:
     serverUrl: https://localhost:8443/iexhub/services
     fhirClientSocketTimeoutInMs: 768000
 ---
+# enables ssl in this service when activated
 spring.profiles: ssl
 server:
   port: 8448
+  # configure keystore and keystore password for ssl per environment
   ssl:
     key-store: /ssl_keystore.keystore
     key-store-password: changeit
@@ -72,6 +68,7 @@ eureka:
     secure-port-enabled: true
     non-secure-port-enabled: false
 ---
+# enables ssl and adds /patientRegistration context path when activated
 spring.profiles: standalone-ssl
 spring:
   profiles:
@@ -79,12 +76,13 @@ spring:
 server:
   context-path: /patientRegistration
 ---
+# updates configuration for docker environment
 spring:
   profiles: docker
 eureka:
   client:
     service-url:
-      defaultZone: https://discovery-server.c2s.com:8761/eureka/
+      defaultZone: ${eureka.client.protocol:http}://discovery-server.c2s.com:8761/eureka/
   instance:
     prefer-ip-address: true
 fhir:
