@@ -45,20 +45,15 @@ public class HiePatientServiceFhirImpl implements HiePatientService {
             throw new FHIRFormatErrorException("Patient Validation is not successful" + validationResult.getMessages());
         }
 
-            /*
-            Use the client to store a new patient resource instance
-            Invoke the server create method (and send pretty-printed JSON
-            encoding to the server
-            instead of the default which is non-pretty printed XML)
-            */
+        /*
+        Use the client to store a new patient resource instance
+        Invoke the server create method (and send pretty-printed JSON
+        encoding to the server
+        instead of the default which is non-pretty printed XML)
+        */
         MethodOutcome outcome = fhirClient.create().resource(patient).execute();
 
-        //TODO : Need to store Eid value once integrate with IExhub
-        //  signupDto.setResourceIdentifier(outcome.getId().getIdPart());
-
-        //print the output
-        // System.out.println("Patient Resource Id" + signupDto.getResourceIdentifier());
-
+        //TODO: Need to store Eid value once integrate with IExhub
         return signupDto;
     }
 }

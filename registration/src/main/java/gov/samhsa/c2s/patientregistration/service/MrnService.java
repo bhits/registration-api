@@ -14,6 +14,4 @@ public interface MrnService {
      * @return the string
      */
     String generateMrn();
-
 }
-

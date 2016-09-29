@@ -83,5 +83,3 @@ public class PatientRegistrationServiceImpl implements PatientRegistrationServic
                 StringUtils.containsIgnoreCase(exceptionMessage, "EmailExistsException");
     }
 }
-
-
