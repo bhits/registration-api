@@ -58,9 +58,7 @@ public class FhirResourceConverter {
     };
 
     public Patient convertToPatient(SignupDto signupDto) {
-        Patient patient = signupDtoToPatient.apply(signupDto);
-
-        return patient;
+        return signupDtoToPatient.apply(signupDto);
     }
 
     private void setIdentifiers(Patient patient, SignupDto signupDto, String medicalRecordNumber) {

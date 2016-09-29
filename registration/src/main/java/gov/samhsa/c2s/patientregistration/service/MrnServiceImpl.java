@@ -28,11 +28,11 @@ public class MrnServiceImpl implements MrnService {
     private String generateRandomMrn() {
         StringBuilder localIdIdBuilder = new StringBuilder();
         if (null != identifierProperties.getMrnPrefix()) {
-            localIdIdBuilder.append(new String(identifierProperties.getMrnPrefix()));
+            localIdIdBuilder.append(identifierProperties.getMrnPrefix());
             localIdIdBuilder.append(".");
         }
         localIdIdBuilder.append(RandomStringUtils
-                .randomAlphanumeric((Integer.parseInt(identifierProperties.getMrnIdLength()))));
+                .randomAlphanumeric((identifierProperties.getMrnIdLength())));
         return localIdIdBuilder.toString().toUpperCase();
     }
 }
