@@ -16,7 +16,7 @@ public class MrnServiceImpl implements MrnService {
 
     @Override
     public String generateMrn() {
-        //TODO: Need to cross verify with existing mrns from phr db
+        //TODO: Make sure the randomly generating MRN does not exist in PHR database
         return generateRandomMrn();
     }
 
