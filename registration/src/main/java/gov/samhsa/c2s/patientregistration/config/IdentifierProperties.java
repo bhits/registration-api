@@ -13,7 +13,7 @@ public class IdentifierProperties {
     private String mrnDomainId;
     private String mrnDomainType;
     private String mrnDomainLabel;
-    private String mrnIdLength;
+    private int mrnIdLength;
     private String mrnSystem;
     private String mrnUse;
     private String ssnSystem;

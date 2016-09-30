@@ -1,6 +1,5 @@
 package gov.samhsa.c2s.patientregistration.service.util;
 
-
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.model.dstu2.valueset.AdministrativeGenderEnum;
 import ca.uhn.fhir.model.dstu2.valueset.ContactPointSystemEnum;
@@ -11,7 +10,6 @@ import gov.samhsa.c2s.patientregistration.config.IdentifierProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.function.Function;
-
 
 public class FhirResourceConverter {
 
@@ -60,19 +58,11 @@ public class FhirResourceConverter {
     };
 
     public Patient convertToPatient(SignupDto signupDto) {
-        Patient patient = signupDtoToPatient.apply(signupDto);
-
-        return patient;
+        return signupDtoToPatient.apply(signupDto);
     }
 
     private void setIdentifiers(Patient patient, SignupDto signupDto, String medicalRecordNumber) {
 
-        //setting patient mrn
-        // String mrnValue = mrnService.generateMrn();
-        // patient.addIdentifier().setValue(medicalRecordNumber);
-        // patient.setId(new IdDt(medicalRecordNumber));
-        // setting MRN value
-        // patient.setId(new IdDt(medicalRecordNumber));
         patient.addIdentifier().setSystem(identifierProperties.getMrnDomainLabel())
                 .setUse(IdentifierUseEnum.OFFICIAL).setValue(medicalRecordNumber).setSystem(identifierProperties.getMrnDomainId());
 
@@ -80,7 +70,5 @@ public class FhirResourceConverter {
         if (signupDto.getSocialSecurityNumber() != null && signupDto.getSocialSecurityNumber().length() > 0)
             patient.addIdentifier().setSystem(identifierProperties.getSsnSystem())
                     .setValue(signupDto.getSocialSecurityNumber()).setSystem(identifierProperties.getSsnLabel());
-
-
     }
 }
