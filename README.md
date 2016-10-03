@@ -1,6 +1,6 @@
 # Patient Registration API
 
-The Patient Registration (patient-registration) API is a component of Consent2Share (C2S) that manages patient account creation and persist patient demographics in PHR domain. Meanwhile, It registers patient health records in Health Information Exchange (HIE) if not existed.
+The Patient Registration (patient-registration) API is a component of Consent2Share (C2S) that manages the patient account creation process and persists patient demographics in Patient Health Record (PHR) API domain. If it is configured, it also registers the patient demographics to Health Information Exchange (HIE) via Information Exchange Hub (IExHub).
 
 ## Build
 
@@ -101,9 +101,11 @@ Java has a default CA Certificates Store that allows it to trust well-known cert
 [//]: # (## Contribute)
 
 ## Contact
-If you have any questions, comments, or concerns please see [Consent2Share](../../contact) page
+
+If you have any questions, comments, or concerns please see [Consent2Share]() project site.
 
 ## Report Issues
+
 Please use [GitHub Issues](https://github.com/bhits/registration-api/issues) page to report issues.
 
 [//]: # (License)
