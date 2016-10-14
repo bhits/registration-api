@@ -60,12 +60,12 @@
         <hapi.fhir.version>1.4</hapi.fhir.version>
         <docker.maven.version>0.4.3</docker.maven.version>
         <lombok.version>1.16.6</lombok.version>
-        <c2s-common-libraries.version>1.7.0</c2s-common-libraries.version>
+        <c2s-common-libraries.version>1.6.0</c2s-common-libraries.version>
     </properties>
 
     <profiles>
         <profile>
-            <id>external-build</id>
+            <id>externalbuild</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -77,8 +77,9 @@
                 </repository>
             </repositories>
         </profile>
+
         <profile>
-            <id>bhits-mvn-repo</id>
+            <id>fei-nexus</id>
             <distributionManagement>
                 <repository>
                     <id>deployment</id>
@@ -93,6 +94,7 @@
             </distributionManagement>
         </profile>
     </profiles>
+
 
     <dependencyManagement>
         <dependencies>
