@@ -43,6 +43,21 @@
         <developerConnection>scm:git:${project.scm.url}.git</developerConnection>
     </scm>
 
+    <!-- Comment out the below distributionManagement if you couldn't connect to FEi Nexus repository manager to upload dependencies when you run 'mvn deploy' command -->
+
+    <distributionManagement>
+        <repository>
+            <id>deployment</id>
+            <name>Internal Releases</name>
+            <url>http://${maven.nexus.servername}/repository/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>deployment</id>
+            <name>Internal Releases</name>
+            <url>http://${maven.nexus.servername}/repository/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -60,41 +75,16 @@
         <hapi.fhir.version>1.4</hapi.fhir.version>
         <docker.maven.version>0.4.3</docker.maven.version>
         <lombok.version>1.16.6</lombok.version>
-        <c2s-common-libraries.version>1.6.0</c2s-common-libraries.version>
+        <c2s-common-libraries.version>1.7.0</c2s-common-libraries.version>
     </properties>
 
-    <profiles>
-        <profile>
-            <id>externalbuild</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <repositories>
-                <repository>
-                    <id>repo.spring.io</id>
-                    <name>Spring Milestone Repository</name>
-                    <url>https://repo.spring.io/libs-milestone-local</url>
-                </repository>
-            </repositories>
-        </profile>
-
-        <profile>
-            <id>fei-nexus</id>
-            <distributionManagement>
-                <repository>
-                    <id>deployment</id>
-                    <name>Internal Releases</name>
-                    <url>http://${maven.nexus.servername}/repository/releases/</url>
-                </repository>
-                <snapshotRepository>
-                    <id>deployment</id>
-                    <name>Internal Releases</name>
-                    <url>http://${maven.nexus.servername}/repository/snapshots/</url>
-                </snapshotRepository>
-            </distributionManagement>
-        </profile>
-    </profiles>
-
+    <repositories>
+         <repository>
+                <id>repo.spring.io</id>
+                 <name>Spring Milestone Repository</name>
+                 <url>https://repo.spring.io/libs-milestone-local</url>
+         </repository>
+    </repositories>
 
     <dependencyManagement>
         <dependencies>
