@@ -50,8 +50,9 @@ identifier:
   ssnLabel: SSN
 hie-connection:
   fhir:
-    enabled: false
-    serverUrl: http://localhost:8080/iexhub/services
+    enabled: true
+    serverUrl: http://fhirtest.uhn.ca/baseDstu3
+    #serverUrl: http://localhost:8080/iexhub/services
     fhirClientSocketTimeoutInMs: 768000
 ---
 # enables ssl in this service when activated

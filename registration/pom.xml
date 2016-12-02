@@ -72,7 +72,7 @@
         <com.fasterxml.jackson-version>2.7.2</com.fasterxml.jackson-version>
         <spring.integration.http.version>4.1.0.RELEASE</spring.integration.http.version>
         <aspectjweaver>1.8.7</aspectjweaver>
-        <hapi.fhir.version>1.4</hapi.fhir.version>
+        <hapi.fhir.version>2.1</hapi.fhir.version>
         <docker.maven.version>0.4.3</docker.maven.version>
         <lombok.version>1.16.6</lombok.version>
         <c2s-common-libraries.version>1.9.0</c2s-common-libraries.version>
@@ -94,6 +94,22 @@
                 <version>${spring.cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <!-- HAPI FHIR JARS -->
+            <dependency>
+                <groupId>ca.uhn.hapi.fhir</groupId>
+                <artifactId>hapi-fhir-base</artifactId>
+                <version>${hapi.fhir.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ca.uhn.hapi.fhir</groupId>
+                <artifactId>hapi-fhir-validation-resources-dstu3</artifactId>
+                <version>${hapi.fhir.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ca.uhn.hapi.fhir</groupId>
+                <artifactId>hapi-fhir-structures-dstu3</artifactId>
+                <version>${hapi.fhir.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -154,17 +170,14 @@
         <dependency>
             <groupId>ca.uhn.hapi.fhir</groupId>
             <artifactId>hapi-fhir-base</artifactId>
-            <version>${hapi.fhir.version}</version>
         </dependency>
         <dependency>
             <groupId>ca.uhn.hapi.fhir</groupId>
-            <artifactId>hapi-fhir-validation-resources-dstu2</artifactId>
-            <version>${hapi.fhir.version}</version>
+            <artifactId>hapi-fhir-validation-resources-dstu3</artifactId>
         </dependency>
         <dependency>
             <groupId>ca.uhn.hapi.fhir</groupId>
-            <artifactId>hapi-fhir-structures-dstu2</artifactId>
-            <version>${hapi.fhir.version}</version>
+            <artifactId>hapi-fhir-structures-dstu3</artifactId>
         </dependency>
     </dependencies>
 
