@@ -1,17 +1,9 @@
 package gov.samhsa.c2s.patientregistration.service.util;
 
-/*import ca.uhn.fhir.model.dstu2.resource.Patient;
-import ca.uhn.fhir.model.dstu2.valueset.AdministrativeGenderEnum;
-import ca.uhn.fhir.model.dstu2.valueset.ContactPointSystemEnum;
-import ca.uhn.fhir.model.dstu2.valueset.IdentifierUseEnum;*/
-
 import gov.samhsa.c2s.patientregistration.config.IdentifierProperties;
 import gov.samhsa.c2s.patientregistration.service.dto.SignupDto;
-import org.hl7.fhir.dstu3.model.ContactPoint;
-import org.hl7.fhir.dstu3.model.Enumerations;
+import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.dstu3.model.Enumerations.AdministrativeGender;
-import org.hl7.fhir.dstu3.model.Identifier;
-import org.hl7.fhir.dstu3.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.function.Function;
@@ -19,8 +11,8 @@ import java.util.function.Function;
 public class FhirResourceConverter {
 
     @Autowired
-    IdentifierProperties identifierProperties;
-    Function<String, Enumerations.AdministrativeGender> getPatientGender = new Function<String, AdministrativeGender>() {
+    private IdentifierProperties identifierProperties;
+    private Function<String, Enumerations.AdministrativeGender> getPatientGender = new Function<String, AdministrativeGender>() {
         @Override
         public AdministrativeGender apply(String codeString) {
             if (codeString != null && !"".equals(codeString) || codeString != null && !"".equals(codeString)) {
@@ -40,11 +32,12 @@ public class FhirResourceConverter {
             }
         }
     };
-    Function<SignupDto, Patient> signupDtoToPatient = new Function<SignupDto, Patient>() {
+    private Function<SignupDto, Patient> signupDtoToPatient = new Function<SignupDto, Patient>() {
         @Override
         public Patient apply(SignupDto signupDto) {
             Patient patient = new Patient();
             //setting mandatory fields
+            patient.setId(new IdType(signupDto.getMedicalRecordNumber()));
             patient.addName().addFamily(signupDto.getLastName()).addGiven(signupDto.getFirstName());
             patient.addTelecom().setValue(signupDto.getEmail()).setSystem(ContactPoint.ContactPointSystem.EMAIL);
             patient.setBirthDate(signupDto.getBirthDate());
