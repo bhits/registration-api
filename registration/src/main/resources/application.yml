@@ -46,11 +46,12 @@ identifier:
   mrnIdLength: 6
   mrnSystem: http://www.goodhealth.org/identifiers/mrn
   mrnUse: usual
-  ssnSystem: http://hl7.org/fhir/v2/0203
+  ssnSystem: http://hl7.org/fhir/sid/us-ssn
   ssnLabel: SSN
 hie-connection:
   fhir:
     enabled: false
+    #serverUrl: http://fhirtest.uhn.ca/baseDstu3
     serverUrl: http://localhost:8080/iexhub/services
     fhirClientSocketTimeoutInMs: 768000
 ---

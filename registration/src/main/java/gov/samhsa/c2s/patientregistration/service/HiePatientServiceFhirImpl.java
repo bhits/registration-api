@@ -1,6 +1,6 @@
 package gov.samhsa.c2s.patientregistration.service;
 
-import ca.uhn.fhir.model.dstu2.resource.Patient;
+
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.IGenericClient;
 import ca.uhn.fhir.validation.FhirValidator;
@@ -10,6 +10,7 @@ import gov.samhsa.c2s.patientregistration.service.dto.SignupDto;
 import gov.samhsa.c2s.patientregistration.service.exception.FHIRFormatErrorException;
 import gov.samhsa.c2s.patientregistration.service.util.FhirResourceConverter;
 import lombok.extern.slf4j.Slf4j;
+import org.hl7.fhir.dstu3.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Service;
