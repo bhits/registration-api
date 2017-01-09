@@ -24,6 +24,13 @@ public class FhirServiceConfig {
     private FhirContext fhirContext = FhirContext.forDstu3();
 
     @Bean
+    public FhirContext fhirContext(){
+        if(fhirContext == null)
+            fhirContext = FhirContext.forDstu3();
+        return fhirContext;
+    }
+
+    @Bean
     public IGenericClient fhirClient() {
         // Create a client
         fhirContext.getRestfulClientFactory().setSocketTimeout(Integer.parseInt(fhirClientSocketTimeout));

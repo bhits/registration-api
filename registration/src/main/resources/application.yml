@@ -2,6 +2,9 @@ server:
   port: 8448
 logging:
   file: /java/C2S_LOGS/patient-registration/patient-registration.log
+  path: /java/C2S_LOGS/patient-registration
+  level:
+    gov.samhsa.c2s.patientregistration.service: DEBUG
 info:
   component: Patient Registration API
 eureka:
@@ -44,15 +47,15 @@ identifier:
   mrnDomainType: ISO
   mrnDomainLabel: Consent2Share
   mrnIdLength: 6
-  mrnSystem: http://www.goodhealth.org/identifiers/mrn
+  mrnSystem: https://bhits.github.io/consent2share/
   mrnUse: usual
   ssnSystem: http://hl7.org/fhir/sid/us-ssn
   ssnLabel: SSN
 hie-connection:
   fhir:
-    enabled: false
-    #serverUrl: http://fhirtest.uhn.ca/baseDstu3
-    serverUrl: http://localhost:8080/iexhub/services
+    enabled: true
+    serverUrl: http://fhirtest.uhn.ca/baseDstu3
+    #serverUrl: http://localhost:8080/iexhub/services
     fhirClientSocketTimeoutInMs: 768000
 ---
 # enables ssl in this service when activated

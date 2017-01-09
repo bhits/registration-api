@@ -12,6 +12,9 @@ public class FhirResourceConverter {
 
     @Autowired
     private IdentifierProperties identifierProperties;
+
+
+
     private Function<String, Enumerations.AdministrativeGender> getPatientGender = new Function<String, AdministrativeGender>() {
         @Override
         public AdministrativeGender apply(String codeString) {
@@ -38,7 +41,7 @@ public class FhirResourceConverter {
             Patient patient = new Patient();
             //setting mandatory fields
             patient.setId(new IdType(signupDto.getMedicalRecordNumber()));
-            patient.addName().addFamily(signupDto.getLastName()).addGiven(signupDto.getFirstName());
+            patient.addName().setFamily(signupDto.getLastName()).addGiven(signupDto.getFirstName());
             patient.addTelecom().setValue(signupDto.getEmail()).setSystem(ContactPoint.ContactPointSystem.EMAIL);
             patient.setBirthDate(signupDto.getBirthDate());
             patient.setGender(getPatientGender.apply(signupDto.getGenderCode()));
@@ -61,12 +64,15 @@ public class FhirResourceConverter {
 
     private void setIdentifiers(Patient patient, SignupDto signupDto, String medicalRecordNumber) {
 
-        patient.addIdentifier().setSystem(identifierProperties.getMrnDomainLabel())
-                .setUse(Identifier.IdentifierUse.OFFICIAL).setValue(medicalRecordNumber).setSystem(identifierProperties.getMrnDomainId());
+        patient.addIdentifier().setSystem(identifierProperties.getMrnSystem())
+                .setUse(Identifier.IdentifierUse.OFFICIAL).setValue(medicalRecordNumber);
 
         // setting ssn value
         if (signupDto.getSocialSecurityNumber() != null && signupDto.getSocialSecurityNumber().length() > 0)
             patient.addIdentifier().setSystem(identifierProperties.getSsnSystem())
-                    .setValue(signupDto.getSocialSecurityNumber()).setSystem(identifierProperties.getSsnLabel());
+                    .setValue(signupDto.getSocialSecurityNumber());
     }
+
+
+
 }
