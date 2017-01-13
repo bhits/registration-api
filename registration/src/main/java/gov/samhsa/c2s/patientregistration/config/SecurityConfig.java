@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 
+import static gov.samhsa.c2s.common.oauth2.OAuth2ScopeUtils.hasScope;
 import static gov.samhsa.c2s.common.oauth2.OAuth2ScopeUtils.hasScopes;
 
 
@@ -32,6 +33,8 @@ public class SecurityConfig {
                 }
                 http.authorizeRequests()
                         .antMatchers(HttpMethod.POST, "/patients/**").access(hasScopes("phr.hie_write", "registration.write"))
+                        .antMatchers(HttpMethod.GET, "/management/**").access(hasScope("registration.management"))
+                        .antMatchers(HttpMethod.POST, "/management/**").access(hasScope("registration.management"))
                         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().denyAll();
             }
