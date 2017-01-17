@@ -18,14 +18,13 @@ identifier:
   mrnDomainType: ISO
   mrnDomainLabel: Consent2Share
   mrnIdLength: 6
-  mrnSystem: http://www.goodhealth.org/identifiers/mrn
+  mrnSystem: https://bhits.github.io/consent2share/
   mrnUse: usual
   ssnSystem: http://hl7.org/fhir/sid/us-ssn
   ssnLabel: SSN
 hie-connection:
   fhir:
     enabled: false
-    #serverUrl: http://fhirtest.uhn.ca/baseDstu3
     serverUrl: http://localhost:8080/iexhub/services
     fhirClientSocketTimeoutInMs: 768000
 ---

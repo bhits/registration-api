@@ -17,29 +17,33 @@ public class FhirServiceConfig {
     @Autowired
     private FhirProperties fhirProperties;
 
-    // Create a context
-    private FhirContext fhirContext = FhirContext.forDstu3();
+
+    @Bean
+    public FhirContext fhirContext(){
+        FhirContext fhirContext = FhirContext.forDstu3();
+        fhirContext.getRestfulClientFactory().setSocketTimeout(Integer.parseInt(fhirProperties.getFhirClientSocketTimeoutInMs()));
+        return fhirContext;
+    }
 
     @Bean
     public IGenericClient fhirClient() {
         // Create a client
-        fhirContext.getRestfulClientFactory().setSocketTimeout(Integer.parseInt(fhirProperties.getFhirClientSocketTimeoutInMs()));
-        return fhirContext.newRestfulGenericClient(fhirProperties.getServerUrl());
+        return fhirContext().newRestfulGenericClient(fhirProperties.getServerUrl());
     }
 
     @Bean
     public IParser fhirXmlParser() {
-        return fhirContext.newXmlParser();
+        return  fhirContext().newXmlParser();
     }
 
     @Bean
     public IParser fhirJsonParser() {
-        return fhirContext.newJsonParser();
+        return  fhirContext().newJsonParser();
     }
 
     @Bean
     public FhirValidator fhirValidator() {
-        return fhirContext.newValidator();
+        return  fhirContext().newValidator();
     }
 
     @Bean
