@@ -10,6 +10,11 @@ import org.springframework.context.annotation.Configuration;
 @Data
 public class FhirProperties {
 
+    /**
+     * Enable to use FHIR standard
+     */
+    private boolean enabled = false;
+
     @NotEmpty
     private String serverUrl;
 
