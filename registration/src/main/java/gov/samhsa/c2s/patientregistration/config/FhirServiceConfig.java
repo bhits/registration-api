@@ -5,7 +5,7 @@ import ca.uhn.fhir.parser.IParser;
 import ca.uhn.fhir.rest.client.IGenericClient;
 import ca.uhn.fhir.validation.FhirValidator;
 import gov.samhsa.c2s.patientregistration.service.util.FhirResourceConverter;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,24 +14,21 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(name = "hie-connection.fhir.enabled", havingValue = "true")
 public class FhirServiceConfig {
 
-    @Value("${hie-connection.fhir.serverUrl}")
-    private String fhirServerUrl;
-
-    @Value("${hie-connection.fhir.fhirClientSocketTimeoutInMs}")
-    private String fhirClientSocketTimeout;
+    @Autowired
+    private FhirProperties fhirProperties;
 
 
     @Bean
     public FhirContext fhirContext(){
         FhirContext fhirContext = FhirContext.forDstu3();
-        fhirContext.getRestfulClientFactory().setSocketTimeout(Integer.parseInt(fhirClientSocketTimeout));
+        fhirContext.getRestfulClientFactory().setSocketTimeout(Integer.parseInt(fhirProperties.getFhirClientSocketTimeoutInMs()));
         return fhirContext;
     }
 
     @Bean
     public IGenericClient fhirClient() {
         // Create a client
-        return fhirContext().newRestfulGenericClient(fhirServerUrl);
+        return fhirContext().newRestfulGenericClient(fhirProperties.getServerUrl());
     }
 
     @Bean
