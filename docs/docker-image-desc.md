@@ -16,8 +16,8 @@ For more information about this image, the source code, and its history, please 
 The Patient Registration (patient-registration) API is a component of Consent2Share (C2S) that manages the patient account creation process and persists patient demographics in Patient Health Record (PHR) API domain. If it is configured, it also registers the patient demographics to Health Information Exchange (HIE) via Information Exchange Hub (IExHub).
 
 For more information and related downloads for Consent2Share, please visit [Consent2Share](https://bhits.github.io/consent2share/).
-# How to use this image
 
+# How to use this image
 
 ## Start a Patient Registration instance
 
@@ -25,8 +25,7 @@ Be sure to familiarize yourself with the repository's [README.md](https://github
 
 `docker run  --name patient-registration -d bhits/patient-registration:latest <additional program arguments>`
 
-*NOTE: In order for this API to fully function as a microservice in the Consent2Share application, it is required to setup the dependency microservices and support level infrastructure. Please refer to the [Consent2Share Deployment Guide](https://github.com/bhits/consent2share/releases/download/2.1.0/c2s-deployment-guide.pdf) for instructions to setup the Consent2Share infrastructure.*
-
+*NOTE: In order for this API to fully function as a microservice in the Consent2Share application, it is required to setup the dependency microservices and support level infrastructure. Please refer to the [Consent2Share Deployment Guide](https://github.com/bhits/consent2share/releases) in the corresponding Consent2Share release for instructions to setup the Consent2Share infrastructure.*
 
 ## Configure
 
