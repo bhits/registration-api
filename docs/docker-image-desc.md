@@ -3,9 +3,11 @@ This API manages patient account creation process, persisting patient demographi
 
 # Full Description
 
-# Supported Tags and Respective `Dockerfile` Links
+# Supported Source Code Tags and Current `Dockerfile` Link
 
-[`1.19.0`](https://github.com/bhits/registration-api/blob/master/registration/src/main/docker/Dockerfile),[`latest`](https://github.com/bhits/registration-api/blob/master/registration/src/main/docker/Dockerfile)[(1.19.0/Dockerfile)](https://github.com/bhits/registration-api/blob/master/registration/src/main/docker/Dockerfile)
+[`1.19.0 (latest)`](https://github.com/bhits/registration-api/releases/tag/1.19.0), [`1.15.0`](https://github.com/bhits/registration-api/releases/tag/1.15.0)
+
+[`Current Dockerfile`](https://github.com/bhits/registration-api/blob/master/registration/src/main/docker/Dockerfile)
 
 For more information about this image, the source code, and its history, please see the [GitHub repository](https://github.com/bhits/registration-api).
 
